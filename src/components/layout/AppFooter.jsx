@@ -2,9 +2,9 @@ import React from "react";
 
 function AppFooter() {
   return (
-    <footer className="bg-slate-400 text-slate-100 p-4">
+    <footer className="bg-gradient-to-r from-purple-400/70 via-teal-500/60 to-sky-500/70 backdrop-blur-md text-white p-4">
       <div className="flex justify-center items-center space-x-6">
-        <p>My First React App - Footer</p>
+        <p>PiKasa - Tu hogar, tu elección</p>
         <p>2025</p>
         <p>All rights reserved</p>
       </div>

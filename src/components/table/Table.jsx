@@ -4,14 +4,10 @@ import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
 import AddRowButton from "./AddRowButton";
 
-function Table() {
-  // Initial data
-  const [rows, setRows] = useState([
-    { name: "Castellana 324, 2,C.", price: 150000, surface: 75 },
-    { name: "Principe de vergara 27, 4A.", price: 175000, surface: 82 }
-  ]);
+function Table({ rows, setRows }) {
+  // El estado de las filas ya lo recibes por props, NO lo creas aquí.
 
-  // Manage changes in a cell
+  // Gestionar cambios en una celda
   const handleCellChange = (rowIndex, field, value) => {
     const newRows = rows.map((row, idx) =>
       idx === rowIndex ? { ...row, [field]: value } : row
@@ -19,7 +15,7 @@ function Table() {
     setRows(newRows);
   };
 
-  // Sort the files
+  // El estado de sort puede ser local porque solo afecta a la visualización
   const [sort, setSort] = useState({ field: null, direction: "asc" });
 
   const handleSort = (field) => {
@@ -54,13 +50,17 @@ function Table() {
       </div>
       <div className="max-w-3xl w-full mx-auto flex justify-center mt-6">
         <AddRowButton
-          onClick={() =>
-            setRows([...rows, { name: "Nueva vivienda", price: "324000", surface: "90" }])
-          }
+          onClick={() => {
+            // Encuentra el ID más alto actual
+            const maxId = rows.length > 0 ? Math.max(...rows.map(r => r.id)) : 0;
+            setRows([
+              ...rows,
+              { id: maxId + 1, name: "Nueva vivienda", price: "324000", surface: "90" }
+            ]);
+          }}
         />
       </div>
     </>
-
   );
 }
 
