@@ -22,24 +22,38 @@ function Table({ rows, setRows }) {
     const direction =
       sort.field === field && sort.direction === "asc" ? "desc" : "asc";
     setSort({ field, direction });
-
+  
+    const isNumeric = field === "price" || field === "surface" || field === "kpick";
+  
     const sortedRows = [...rows].sort((a, b) => {
-      if (a[field] === b[field]) return 0;
-      if (direction === "asc") return a[field] > b[field] ? 1 : -1;
-      return a[field] < b[field] ? 1 : -1;
+      let aValue = a[field];
+      let bValue = b[field];
+  
+      if (isNumeric) {
+        aValue = Number(aValue);
+        bValue = Number(bValue);
+      }
+  
+      if (aValue === bValue) return 0;
+      if (direction === "asc") return aValue > bValue ? 1 : -1;
+      return aValue < bValue ? 1 : -1;
     });
+  
     setRows(sortedRows);
   };
+  
+
+  const hasKpick = rows.some(r => r.kpick !== undefined);
 
   return (
     <>
       <div className="mt-10 overflow-hidden shadow-md sm:rounded-lg max-w-3xl w-full mx-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <TableHeader sort={sort} onSort={handleSort} />
+        <TableHeader sort={sort} onSort={handleSort} hasKpick={hasKpick} />
           <tbody>
             {rows.map((row, idx) => (
               <TableRow
-                key={idx}
+                key={row.id}
                 row={row}
                 rowIndex={idx}
                 onCellChange={handleCellChange}

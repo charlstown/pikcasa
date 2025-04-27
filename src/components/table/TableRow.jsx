@@ -20,6 +20,10 @@ function TableRow({ row, rowIndex, onCellChange }) {
         type="number"
         suffix=" m²"
       />
+      {/* Si existe el campo kPick, muestra la celda (no editable) */}
+      {row.kpick !== undefined && (
+        <td className="border-none text-center text-teal-400 font-semibold px-4 py-2">{row.kpick}</td>
+      )}
     </tr>
   );
 }

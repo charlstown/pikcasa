@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
@@ -23,10 +23,18 @@ class Vivienda(BaseModel):
 @app.post("/api/endpoint")
 async def recibir_viviendas(viviendas: List[Vivienda]):
     print("Datos recibidos:", viviendas)
-    # Devuelve la métrica mock
+    # Ejemplo: genera una kpick mock para cada vivienda
+    data = []
+    for idx, viv in enumerate(viviendas):
+        data.append({
+            "id": viv.id,
+            "name": viv.name,
+            "price": viv.price,
+            "area": viv.area,
+            "kpick": round(0.5 + idx * 0.2, 2)
+        })
     return {
         "ok": True,
         "msg": "Datos recibidos correctamente",
-        "data": viviendas,
-        "metric": [0.88, 0.65, 0.75]  # Ejemplo de métrica por vivienda
+        "data": data
     }

@@ -8,8 +8,6 @@ export async function sendRowsToBackend(rows) {
     area: row.surface,
   }));
 
-  console.log("Enviando JSON:", dataToSend);
-
   const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

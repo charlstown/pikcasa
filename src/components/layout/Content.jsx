@@ -13,14 +13,19 @@ function Content() {
   const handleButtonClick = async () => {
     try {
       const result = await sendRowsToBackend(rows);
-      console.log('Respuesta:', result);
-      // Lógica con el resultado
+      if (result && Array.isArray(result.data)) {
+        const rowsFromBackend = result.data.map(row => ({
+          ...row,
+          surface: row.area // Alias para que tu frontend siga funcionando
+        }));
+        setRows(rowsFromBackend);
+      }
+      
     } catch (err) {
       console.error('Error al enviar:', err);
-      // Lógica de error
     }
   };
-
+  
   return (
     <main className="flex-1 flex flex-col items-center justify-start p-8">
       <Button className="flex items-center mb-4" onClick={handleButtonClick}>
