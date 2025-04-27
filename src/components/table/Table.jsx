@@ -52,14 +52,6 @@ function Table() {
           </tbody>
         </table>
       </div>
-      {/* Botón debajo de la tabla, siempre visible y centrado */}
-      <div className="flex justify-center mt-2">
-        <AddRowButton
-          onClick={() =>
-            setRows([...rows, { name: "", price: "", surface: "" }])
-          }
-        />
-      </div>
     </>
 
   );
