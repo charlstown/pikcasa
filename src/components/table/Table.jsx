@@ -37,7 +37,7 @@ function Table() {
 
   return (
     <>
-      <div className="mt-10 shadow-md sm:rounded-lg">
+      <div className="mt-10 shadow-md sm:rounded-lg max-w-3xl w-full mx-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <TableHeader sort={sort} onSort={handleSort} />
           <tbody>
@@ -51,6 +51,14 @@ function Table() {
             ))}
           </tbody>
         </table>
+      </div>
+      {/* ¡Asegura el centrado y el margen! */}
+      <div className="max-w-3xl w-full mx-auto flex justify-center mt-6">
+        <AddRowButton
+          onClick={() =>
+            setRows([...rows, { name: "", price: "", surface: "" }])
+          }
+        />
       </div>
     </>
 
