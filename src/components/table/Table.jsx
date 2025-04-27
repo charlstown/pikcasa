@@ -7,8 +7,8 @@ import AddRowButton from "./AddRowButton";
 function Table() {
   // Initial data
   const [rows, setRows] = useState([
-    { name: "Piso 1", price: 150000, surface: 75 },
-    { name: "Piso 2", price: 175000, surface: 82 }
+    { name: "Castellana 324, 2,C.", price: 150000, surface: 75 },
+    { name: "Principe de vergara 27, 4A.", price: 175000, surface: 82 }
   ]);
 
   // Manage changes in a cell
@@ -37,7 +37,7 @@ function Table() {
 
   return (
     <>
-      <div className="mt-10 shadow-md sm:rounded-lg max-w-3xl w-full mx-auto">
+      <div className="mt-10 overflow-hidden shadow-md sm:rounded-lg max-w-3xl w-full mx-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <TableHeader sort={sort} onSort={handleSort} />
           <tbody>
@@ -52,11 +52,10 @@ function Table() {
           </tbody>
         </table>
       </div>
-      {/* ¡Asegura el centrado y el margen! */}
       <div className="max-w-3xl w-full mx-auto flex justify-center mt-6">
         <AddRowButton
           onClick={() =>
-            setRows([...rows, { name: "", price: "", surface: "" }])
+            setRows([...rows, { name: "Nueva vivienda", price: "324000", surface: "90" }])
           }
         />
       </div>

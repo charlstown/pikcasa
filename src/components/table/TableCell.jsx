@@ -6,9 +6,9 @@ function TableCell({ value, onChange, type = "text", suffix }) {
       {onChange ? (
         <div className="flex items-center">
           <input
-            className="w-full border border-gray-200 rounded px-2 py-1 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            className="w-full border border-gray-200 rounded px-2 py-1 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-200"
             type={type}
-            value={value}
+            placeholder={value}
             onChange={e => onChange(e.target.value)}
           />
           {suffix && <span className="ml-1 text-gray-500">{suffix}</span>}
