@@ -5,7 +5,7 @@ import TableRow from "./TableRow";
 import AddRowButton from "./AddRowButton";
 import { useTableSort } from "../../hooks/useTableSort";
 
-function Table({ rows, onCellChange, onAddRow, onDeleteRow, onReplaceRows }) {
+function Table({ rows, onCellChange, onAddRow, onDeleteRow, onReplaceRows, dynamicColumns }) {
   const [sort, handleSort] = useTableSort(rows, onReplaceRows);
 
   const hasKpick = rows.some(r => r.kpick !== undefined);
@@ -14,7 +14,7 @@ function Table({ rows, onCellChange, onAddRow, onDeleteRow, onReplaceRows }) {
     <>
       <div className="mt-6 overflow-x-auto overflow-hidden shadow-md sm:rounded-lg max-w-4xl w-full mx-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <TableHeader sort={sort} onSort={handleSort} hasKpick={hasKpick} />
+          <TableHeader sort={sort} onSort={handleSort} hasKpick={hasKpick} dynamicColumns={dynamicColumns} />
           <tbody>
             {rows.map((row, idx) => (
               <TableRow
@@ -23,6 +23,7 @@ function Table({ rows, onCellChange, onAddRow, onDeleteRow, onReplaceRows }) {
                 rowIndex={idx}
                 onCellChange={onCellChange}
                 onDelete={onDeleteRow}
+                dynamicColumns={dynamicColumns}
               />
             ))}
           </tbody>
@@ -34,5 +35,4 @@ function Table({ rows, onCellChange, onAddRow, onDeleteRow, onReplaceRows }) {
     </>
   );
 }
-
 export default Table;

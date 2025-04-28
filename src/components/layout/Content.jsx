@@ -10,12 +10,19 @@ import PopupWindow from './PopupWindow';
 import { sendRowsToBackend } from '../../api/generate';
 import { useTableRows } from '../../hooks/useTableRows';
 
+const ALL_DYNAMIC_COLUMNS = [
+  { key: "habitaciones", label: "Habitaciones", default: 2 },
+  { key: "banos", label: "Baños", default: 2 },
+  { key: "planta", label: "Planta", default: "intermedia" },
+];
+
 function Content() {
-  // Estado para el popup
   const [popupOpen, setPopupOpen] = useState(false);
 
-  // Nuevo: Estado para los campos seleccionados
+  // Estado para columnas seleccionadas en el popup
   const [selectedColumns, setSelectedColumns] = useState([]);
+  // Columnas dinámicas realmente activas en la tabla
+  const [activeColumns, setActiveColumns] = useState([]);
 
   const {
     rows,
@@ -28,6 +35,7 @@ function Content() {
     { id: 2, name: "Principe de vergara 27, 4A.", price: 375000, surface: 82 }
   ]);
 
+  // Botón para generar K-Pick
   const handleButtonClick = async () => {
     try {
       const result = await sendRowsToBackend(rows);
@@ -41,6 +49,36 @@ function Content() {
     } catch (err) {
       console.error('Error al enviar:', err);
     }
+  };
+
+  // Aplica la selección del popup: añade/quita columnas dinámicas
+  const handleApplyColumns = (selected) => {
+    // Determina columnas a añadir y a quitar
+    const toAdd = ALL_DYNAMIC_COLUMNS.filter(col => selected.includes(col.key));
+    const toRemove = ALL_DYNAMIC_COLUMNS.filter(col => !selected.includes(col.key));
+
+    // Modifica las filas según las columnas seleccionadas
+    const newRows = rows.map(row => {
+      let updatedRow = { ...row };
+      // Añadir campos con valores por defecto
+      toAdd.forEach(col => {
+        if (updatedRow[col.key] === undefined) {
+          updatedRow[col.key] = col.default;
+        }
+      });
+      // Eliminar campos deseleccionados
+      toRemove.forEach(col => {
+        if (updatedRow.hasOwnProperty(col.key)) {
+          delete updatedRow[col.key];
+        }
+      });
+      return updatedRow;
+    });
+
+    // Actualiza el estado
+    setActiveColumns(selected);
+    replaceRows(newRows);
+    setPopupOpen(false);
   };
 
   return (
@@ -58,12 +96,14 @@ function Content() {
         onAddRow={handleAddRow}
         onDeleteRow={handleDeleteRow}
         onReplaceRows={replaceRows}
+        dynamicColumns={activeColumns}
       />
       <PopupWindow
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
         selectedColumns={selectedColumns}
         setSelectedColumns={setSelectedColumns}
+        onApply={handleApplyColumns}
       />
     </main>
   );
