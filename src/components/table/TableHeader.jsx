@@ -11,6 +11,7 @@ function TableHeader({ sort, onSort, hasKpick }) {
   return (
     <thead>
       <tr className="bg-slate-100">
+        <th></th>
         {columns.map(col => (
           <th
             key={col.key}

@@ -1,9 +1,18 @@
 import React from "react";
 import TableCell from "./TableCell";
 
-function TableRow({ row, rowIndex, onCellChange }) {
+function TableRow({ row, rowIndex, onCellChange, onDelete }) {
   return (
     <tr className="bg-white border-b border-gray-200 hover:bg-gray-50">
+      <td className="px-4 py-2 text-center">
+        <button
+          onClick={() => onDelete(row.id)}
+          className="text-red-300 hover:text-red-500 font-bold text-2xl"
+          title="Eliminar fila"
+        >
+          ×
+        </button>
+      </td>
       <TableCell
         value={row.name}
         onChange={value => onCellChange(rowIndex, "name", value)}
