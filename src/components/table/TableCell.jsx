@@ -1,3 +1,4 @@
+//src/components/table/TableCell.jsx
 import React from "react";
 
 function TableCell({ value, onChange, type = "text", suffix }) {

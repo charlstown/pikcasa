@@ -1,3 +1,4 @@
+// src/components/table/TableRow.jsx
 import React from "react";
 import TableCell from "./TableCell";
 

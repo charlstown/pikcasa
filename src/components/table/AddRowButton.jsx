@@ -9,7 +9,7 @@ function AddRowButton({ onClick }) {
       onClick={onClick}
       type="button"
       aria-label="Añadir fila"
-      className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-300 text-white hover:bg-teal-300/70 transition-colors shadow"
+      className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-400 text-white hover:bg-teal-400/70 transition-colors shadow"
     >
       <IconAddRow className="p-2" />
     </button>

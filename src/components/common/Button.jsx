@@ -2,7 +2,7 @@
 import React from "react";
 
 function Button({ onClick, children, className = "" }) {
-  const baseClass = "px-4 py-2 bg-teal-300 text-white rounded-lg font-semibold hover:bg-teal-300/70 transition-colors shadow";
+  const baseClass = "px-4 py-2 bg-teal-400 text-white rounded-lg font-semibold hover:bg-teal-400/70 transition-colors shadow";
   return (
     <button type="button"
     onClick={onClick}

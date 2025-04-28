@@ -6,7 +6,7 @@ function AppFooter() {
       <div className="flex justify-center items-center space-x-6">
         <p>PiKasa - Tu hogar, tu elección</p>
         <p>2025</p>
-        <p>All rights reserved</p>
+        <p>By @charlstown</p>
       </div>
     </footer>
   );
