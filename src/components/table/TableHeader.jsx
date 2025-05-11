@@ -4,16 +4,14 @@ import SortIconUp from "../../assets/SortIconUp";
 import SortIconDown from "../../assets/SortIconDown";
 
 function TableHeader({ columns, onSort }) {
-  const [sortState, setSortState] = useState({}); // Estado para rastrear el orden de cada columna
+  const [sortState, setSortState] = useState({});
 
   const toggleSort = (field) => {
     setSortState((prevState) => {
       const currentSort = prevState[field];
       const nextSort = currentSort === "desc" ? "asc" : "desc";
-
-      // Reinicia el estado de las demás columnas
       const newSortState = { [field]: nextSort };
-      onSort(field, nextSort); // Llama a la función de ordenación
+      onSort(field, nextSort);
       return newSortState;
     });
   };
@@ -28,13 +26,19 @@ function TableHeader({ columns, onSort }) {
   return (
     <thead>
       <tr>
-        {columns.map(({ field, visible, sortable }) =>
+        {columns.map(({ field, visible, sortable, align }) =>
           visible ? (
             <th
               key={field}
-              className="p-4 text-sm font-bold leading-none text-slate-500 bg-slate-100 min-w-max whitespace-nowrap"
+              className={`p-2 px-4 py-4 text-sm font-bold leading-none text-slate-500 bg-slate-100 min-w-max whitespace-nowrap ${
+                align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"
+              }`}
             >
-              <div className="inline-flex items-center justify-between w-full">
+              <div
+                className={`inline-flex items-center ${
+                  align === "center" ? "justify-center" : align === "right" ? "justify-end" : "justify-start"
+                }`}
+              >
                 <span>{field.toUpperCase()}</span>
                 {sortable && (
                   <button

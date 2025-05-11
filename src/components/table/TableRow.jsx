@@ -1,33 +1,42 @@
 import React from "react";
 import IconDeleteRow from "../../assets/IconDeleteRow";
+import IconEditRow from "../../assets/IconEditRow";
+import IconLink from "../../assets/IconLink";
 
 function TableRow({ row, columns, rowIndex, onRowDelete }) {
   return (
     <tr>
       {columns
         .filter(({ visible }) => visible)
-        .map(({ field, highlight }) => (
+        .map(({ field, highlight, align }) => (
           <td
             key={field}
             className={`p-2 text-sm text-slate-700 ${
               highlight ? "bg-teal-50" : "bg-white"
-            }`}
+            } ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}
           >
             {field === "link" ? (
               <a
                 href={row[field]}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-teal-500 underline hover:text-teal-700"
+                className="flex justify-center items-center text-slate-500 hover:text-teal-500"
               >
-                {row[field]}
+                <IconLink />
               </a>
             ) : (
               row[field]
             )}
           </td>
         ))}
-      <td className="p-4 text-sm text-slate-700">
+      <td className="p-1 text-sm text-slate-700 flex space-x-2">
+        <button
+          type="button"
+          className="text-slate-500 hover:text-teal-500"
+          onClick={() => console.log(`Edit row ${rowIndex}`)}
+        >
+          <IconEditRow />
+        </button>
         <button
           type="button"
           className="text-slate-500 hover:text-red-500"
