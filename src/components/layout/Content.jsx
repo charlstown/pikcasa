@@ -16,7 +16,7 @@ const ALL_DYNAMIC_COLUMNS = [
 function Content() {
   //pass
   return (
-    <main className="flex-1 flex flex-col items-center justify-start p-2">
+    <main className="bg-teal-50 flex-1 flex flex-col items-center justify-start p-2">
       <CallToAction />
       <div className="flex gap-4 mb-2">
         <Button className="flex items-center">
