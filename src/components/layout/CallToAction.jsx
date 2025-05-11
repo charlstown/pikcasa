@@ -4,7 +4,7 @@ function CallToAction() {
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
-    <p className="p-4 mb-8 max-w-3xl text-lg text-center text-slate-500 font-medium relative">
+    <p className="p-2 mb-4 max-w-3xl text-lg text-center text-slate-500 font-medium relative">
       La forma más sencilla de comparar viviendas y elegir la mejor.
       Añade tus datos y pulsa
       <span
