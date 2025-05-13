@@ -48,7 +48,7 @@ function Form({ formFields, onSubmit, title, submitLabel }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {title && <h2 className="text-xl font-bold mb-4">{title}</h2>}
+      {title && <h2 className="text-xl font-bold mb-4 text-slate-500">{title}</h2>}
       <div className="flex flex-wrap -mx-2">
         {formFields.map((field) => (
           <FormField

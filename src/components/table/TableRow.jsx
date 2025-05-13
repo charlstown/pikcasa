@@ -24,6 +24,10 @@ function TableRow({ row, columns, rowIndex, onRowDelete }) {
               >
                 <IconLink />
               </a>
+            ) : field === "precio" ? (
+              <span className="font-semibold text-slate-500">
+                {Number(row[field]).toLocaleString("es-ES")} €
+              </span>
             ) : (
               row[field]
             )}

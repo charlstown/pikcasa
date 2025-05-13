@@ -12,17 +12,17 @@ import IconAddRow from '../../assets/IconAddRow';
 const columns = [
   { field: "id", visible: false, width: 50, highlight: false, sortable: false, align: "left" },
   { field: "link", visible: true, width: 200, highlight: false, sortable: false, align: "center" },
-  { field: "kpi", visible: true, width: 100, highlight: true, sortable: true, align: "left" },
-  { field: "precio", visible: true, width: 100, highlight: false, sortable: true, align: "left" },
-  { field: "superficie", visible: true, width: 80, highlight: false, sortable: true, align: "left" },
-  { field: "planta", visible: true, width: 70, highlight: false, sortable: false, align: "left" },
-  { field: "ascensor", visible: true, width: 80, highlight: false, sortable: false, align: "left" },
-  { field: "habitaciones", visible: true, width: 90, highlight: false, sortable: false, align: "left" },
-  { field: "baños", visible: true, width: 70, highlight: false, sortable: false, align: "left" },
-  { field: "calefacción", visible: true, width: 100, highlight: false, sortable: false, align: "left" },
-  { field: "fachada", visible: true, width: 120, highlight: false, sortable: false, align: "left" },
-  { field: "garaje", visible: true, width: 120, highlight: false, sortable: false, align: "left" },
-  { field: "terraza", visible: true, width: 120, highlight: false, sortable: false, align: "left" },
+  { field: "kpi", visible: true, width: 100, highlight: true, sortable: true, align: "center" },
+  { field: "precio", visible: true, width: 100, highlight: false, sortable: true, align: "center" },
+  { field: "superficie", visible: true, width: 80, highlight: false, sortable: true, align: "center" },
+  { field: "planta", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
+  { field: "ascensor", visible: true, width: 80, highlight: false, sortable: false, align: "center" },
+  { field: "habitaciones", visible: true, width: 90, highlight: false, sortable: false, align: "center" },
+  { field: "baños", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
+  { field: "calefacción", visible: true, width: 100, highlight: false, sortable: false, align: "center" },
+  { field: "fachada", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "garaje", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "terraza", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
 ];
 
 const initialRows = [
@@ -38,6 +38,8 @@ const initialRows = [
     baños: 2,
     calefacción: "Sí",
     fachada: "Exterior",
+    garaje: "No",
+    terraza: "Sí",
   },
   {
     id: 2,
@@ -51,6 +53,8 @@ const initialRows = [
     baños: 1,
     calefacción: "No",
     fachada: "Interior",
+    garaje: "Sí",
+    terraza: "No",
   },
   {
     id: 3,
@@ -64,6 +68,8 @@ const initialRows = [
     baños: 3,
     calefacción: "Sí",
     fachada: "Exterior",
+    garaje: "Sí",
+    terraza: "Sí",
   },
 ];
 
