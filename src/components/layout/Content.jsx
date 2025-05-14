@@ -9,6 +9,7 @@ import ModalCard from './ModalCard';
 import EditModalCard from './EditModalCard'; // Nuevo componente para editar
 
 import IconAddRow from '../../assets/IconAddRow';
+import { usePersistentState } from "../../hooks/usePersistentState";
 
 const columns = [
   { field: "id", visible: false, width: 50, highlight: false, sortable: false, align: "left" },
@@ -94,7 +95,7 @@ const initialRows = [
 
 function Content() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [rows, setRows] = useState(initialRows);
+  const [rows, setRows] = usePersistentState("viviendas", initialRows);
 
   // Estado para edición
   const [editModalOpen, setEditModalOpen] = useState(false);

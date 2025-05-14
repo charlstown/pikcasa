@@ -26,7 +26,7 @@ function TableHeader({ columns, onSort }) {
   return (
     <thead>
       <tr>
-        {columns.map(({ field, visible, sortable, align }) =>
+        {columns.map(({ field, label, visible, sortable, align }) =>
           visible ? (
             <th
               key={field}
@@ -39,7 +39,12 @@ function TableHeader({ columns, onSort }) {
                   align === "center" ? "justify-center" : align === "right" ? "justify-end" : "justify-start"
                 }`}
               >
-                <span>{field.toUpperCase()}</span>
+                <span>
+                  {(label || field)
+                    .split(" ")
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                    .join(" ")}
+                </span>
                 {sortable && (
                   <button
                     type="button"
