@@ -1,7 +1,7 @@
 import React from "react";
 import TableRow from "./TableRow";
 
-function TableBody({ rows, columns, onRowDelete }) {
+function TableBody({ rows, columns, onRowDelete, onEditRow }) {
   return (
     <tbody>
       {rows.map((row, rowIndex) => (
@@ -11,6 +11,7 @@ function TableBody({ rows, columns, onRowDelete }) {
           columns={columns}
           rowIndex={rowIndex}
           onRowDelete={onRowDelete}
+          onEditRow={onEditRow}
         />
       ))}
     </tbody>

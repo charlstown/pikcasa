@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormField from "./FormField";
 
-function Form({ formFields, onSubmit, title, submitLabel }) {
-  // Inicializa el estado usando default_option si existe
-  const [formData, setFormData] = useState(
+function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
+  const getInitialState = () =>
     formFields.reduce(
       (acc, field) => ({
         ...acc,
-        [field.name]: field.default_option || "",
+        [field.name]:
+          (initialValues && initialValues[field.name] !== undefined)
+            ? initialValues[field.name]
+            : field.default_option || "",
       }),
       {}
-    )
-  );
+    );
+
+  const [formData, setFormData] = useState(getInitialState());
   const [errors, setErrors] = useState({});
+
+  // Si initialValues cambia (por ejemplo, al editar otra fila), actualiza el estado
+  useEffect(() => {
+    setFormData(getInitialState());
+  }, [initialValues, formFields]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

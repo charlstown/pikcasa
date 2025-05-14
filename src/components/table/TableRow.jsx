@@ -3,7 +3,7 @@ import IconDeleteRow from "../../assets/IconDeleteRow";
 import IconEditRow from "../../assets/IconEditRow";
 import IconLink from "../../assets/IconLink";
 
-function TableRow({ row, columns, rowIndex, onRowDelete }) {
+function TableRow({ row, columns, rowIndex, onRowDelete, onEditRow }) {
   return (
     <tr>
       {columns
@@ -28,6 +28,14 @@ function TableRow({ row, columns, rowIndex, onRowDelete }) {
               <span className="font-semibold text-slate-500">
                 {Number(row[field]).toLocaleString("es-ES")} €
               </span>
+            ) : field === "superficie" ? (
+              <span className="font-semibold text-slate-500">
+                {Number(row[field]).toLocaleString("es-ES")} m²
+              </span>
+            ) : field === "eurom2" ? (
+              <span className="font-semibold text-slate-500">
+                {row[field] ? `${Number(row[field]).toLocaleString("es-ES")} €/m²` : ""}
+              </span>
             ) : (
               row[field]
             )}
@@ -37,7 +45,7 @@ function TableRow({ row, columns, rowIndex, onRowDelete }) {
         <button
           type="button"
           className="text-slate-500 hover:text-teal-500"
-          onClick={() => console.log(`Edit row ${rowIndex}`)}
+          onClick={() => onEditRow(rowIndex)}
         >
           <IconEditRow />
         </button>
