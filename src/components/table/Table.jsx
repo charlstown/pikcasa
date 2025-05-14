@@ -23,7 +23,7 @@ export default function Table({ columns, rows, onRowDelete, onEditRow }) {
   };
 
   return (
-    <div className="mt-8 mb-8 relative max-w-[90%] w-min overflow-x-auto max-h-[28rem] flex flex-col h-full text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+    <div className="mt-8 mb-8 relative max-w-[96%] w-min overflow-x-auto max-h-[28rem] flex flex-col h-full text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
       <DataGrid columns={columns} rows={sortedRows} onRowDelete={onRowDelete} onEditRow={onEditRow} onSort={handleSort} />
     </div>
   );
