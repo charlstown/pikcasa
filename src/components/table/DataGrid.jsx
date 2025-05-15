@@ -4,7 +4,7 @@ import TableBody from "./TableBody";
 
 function DataGrid({ columns, rows, onRowDelete, onEditRow, onSort }) {
   return (
-    <table className="w-full text-left table-auto min-w-max">
+    <table className="w-full table-auto min-w-max">
       <TableHeader columns={columns} onSort={onSort} />
       <TableBody rows={rows} columns={columns} onRowDelete={onRowDelete} onEditRow={onEditRow} />
     </table>

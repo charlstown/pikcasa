@@ -58,7 +58,7 @@ function TableHeader({ columns, onSort }) {
             </th>
           ) : null
         )}
-        <th className="p-4 bg-slate-100"></th>
+        <th className="p-4 bg-slate-100"></th> {/* Mueve la columna vacía aquí */}
       </tr>
     </thead>
   );

@@ -1,15 +1,23 @@
 // src/components/common/RoundedButton.jsx
 import React from "react";
 
-function RoundedButton({ onClick, children, className = "", color = "bg-teal-400", hoverColor = "hover:bg-teal-400/70" }) {
+function RoundedButton({
+  onClick,
+  children,
+  className = "",
+  color = "bg-teal-400",
+  hoverColor = "hover:bg-teal-400/70",
+  width = "w-10",
+  height = "h-10"
+}) {
   const baseClass =
-    "w-10 h-10 flex items-center justify-center text-white rounded-full transition-colors shadow";
+    "flex items-center justify-center text-white rounded-full transition-colors shadow";
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`${baseClass} ${color} ${hoverColor} ${className}`}
+      className={`${baseClass} ${width} ${height} ${color} ${hoverColor} ${className}`}
     >
       {children}
     </button>

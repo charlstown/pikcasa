@@ -13,7 +13,13 @@ function TableRow({ row, columns, rowIndex, onRowDelete, onEditRow }) {
             key={field}
             className={`p-2 text-sm text-slate-700 ${
               highlight ? "bg-teal-50" : "bg-white"
-            } ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}
+            } ${
+              align === "center"
+                ? "text-center"
+                : align === "right"
+                ? "text-right"
+                : "text-left"
+            }`}
           >
             {field === "link" ? (
               <a
@@ -34,14 +40,16 @@ function TableRow({ row, columns, rowIndex, onRowDelete, onEditRow }) {
               </span>
             ) : field === "eurom2" ? (
               <span className="font-semibold text-slate-500">
-                {row[field] ? `${Number(row[field]).toLocaleString("es-ES")} €/m²` : ""}
+                {row[field]
+                  ? `${Number(row[field]).toLocaleString("es-ES")} €/m²`
+                  : ""}
               </span>
             ) : (
               row[field]
             )}
           </td>
         ))}
-      <td className="p-1 text-sm text-slate-700 flex space-x-2">
+      <td className="p-1 text-sm text-slate-700 flex items-center space-x-2 bg-white">
         <button
           type="button"
           className="text-slate-500 hover:text-teal-500"

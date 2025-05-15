@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 
 import PrimaryButton from '../common/PrimaryButton';
 import RoundedButton from '../common/RoundedButton';
+import SquareButton from '../common/SquareButton';
 import CallToAction from './CallToAction';
 import DataTable from '../table/Table';
 import ModalCard from './ModalCard';
 import EditModalCard from './EditModalCard'; // Nuevo componente para editar
 
 import IconAddRow from '../../assets/IconAddRow';
+import IconHideColumns from '../../assets/IconHideColumns';
+import IconShowColumns from '../../assets/IconShowColumns';
 import { usePersistentState } from "../../hooks/usePersistentState";
 
 const columns = [
@@ -101,6 +104,23 @@ function Content() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [rowToEdit, setRowToEdit] = useState(null);
 
+  // Estado para columnas visibles
+  const allColumnFields = columns.map(col => col.field).concat("edit_delete");
+  const minimalColumns = ["link", "kpi", "precio", "superficie", "eurom2", "edit_delete"];
+  const [visibleColumns, setVisibleColumns] = useState(allColumnFields);
+
+  const [showMinimal, setShowMinimal] = useState(false);
+
+  const handleToggleColumns = () => {
+    if (showMinimal) {
+      setVisibleColumns(allColumnFields);
+      setShowMinimal(false);
+    } else {
+      setVisibleColumns(minimalColumns);
+      setShowMinimal(true);
+    }
+  };
+
   // Añadir nueva fila desde el formulario
   const handleAddRow = (newRow) => {
     const precio = Number(newRow.precio);
@@ -145,6 +165,13 @@ function Content() {
     setRowToEdit(null);
   };
 
+  // Filtra las columnas según visibleColumns
+  const filteredColumns = [
+    ...columns.filter(col =>
+      visibleColumns.includes(col.field)
+    ),
+  ];
+
   return (
     <main className="bg-teal-50 flex-1 flex flex-col items-center justify-start p-2">
       <CallToAction />
@@ -152,11 +179,29 @@ function Content() {
         <PrimaryButton className="flex items-center">
           Generar K-Pick
         </PrimaryButton>
+        <SquareButton
+          width="w-10"
+          height="h-10"
+          onClick={handleToggleColumns}
+          className="ml-2"
+          borderColor="border-teal-400"
+        >
+          {showMinimal ? (
+            <IconShowColumns className="w-6 h-6 text-teal-400" />
+          ) : (
+            <IconHideColumns className="w-6 h-6 text-teal-400" />
+          )}
+        </SquareButton>
       </div>
 
-      <DataTable columns={columns} rows={rows} onRowDelete={handleDeleteRow} onEditRow={handleEditRow} />
+      <DataTable
+        columns={filteredColumns}
+        rows={rows}
+        onRowDelete={handleDeleteRow}
+        onEditRow={handleEditRow}
+      />
 
-      <RoundedButton onClick={() => setIsModalOpen(true)} className="flex items-center">
+      <RoundedButton width="w-10" height="h-10" onClick={() => setIsModalOpen(true)} className="flex items-center">
         <IconAddRow className="w-6 h-6 text-white" />
       </RoundedButton>
 
