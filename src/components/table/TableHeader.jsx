@@ -40,10 +40,7 @@ function TableHeader({ columns, onSort }) {
                 }`}
               >
                 <span>
-                  {(label || field)
-                    .split(" ")
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                    .join(" ")}
+                  {label ?? field}
                 </span>
                 {sortable && (
                   <button

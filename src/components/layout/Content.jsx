@@ -12,20 +12,20 @@ import IconAddRow from '../../assets/IconAddRow';
 import { usePersistentState } from "../../hooks/usePersistentState";
 
 const columns = [
-  { field: "id", visible: false, width: 50, highlight: false, sortable: false, align: "left" },
-  { field: "link", visible: true, width: 200, highlight: false, sortable: false, align: "center" },
-  { field: "kpi", visible: true, width: 100, highlight: true, sortable: true, align: "center" },
-  { field: "precio", visible: true, width: 100, highlight: false, sortable: true, align: "center" },
-  { field: "superficie", visible: true, width: 80, highlight: false, sortable: true, align: "center" },
-  { field: "eurom2", label: "€/m²", visible: true, width: 90, highlight: false, sortable: true, align: "center" },
-  { field: "planta", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
-  { field: "ascensor", visible: true, width: 80, highlight: false, sortable: false, align: "center" },
-  { field: "habitaciones", visible: true, width: 90, highlight: false, sortable: false, align: "center" },
-  { field: "baños", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
-  { field: "calefacción", visible: true, width: 100, highlight: false, sortable: false, align: "center" },
-  { field: "fachada", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
-  { field: "garaje", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
-  { field: "terraza", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "id", label: "ID", visible: false, width: 50, highlight: false, sortable: false, align: "left" },
+  { field: "link", label: "Link", visible: true, width: 200, highlight: false, sortable: false, align: "center" },
+  { field: "kpi", label: "K-Pick", visible: true, width: 100, highlight: false, accent: true, sortable: true, align: "center" },
+  { field: "precio", label: "Precio", visible: true, width: 100, highlight: false, sortable: true, align: "center" },
+  { field: "superficie", label: "Superficie", visible: true, width: 80, highlight: false, sortable: true, align: "center" },
+  { field: "eurom2", label: "€/m²", visible: true, width: 90, highlight: true, sortable: true, align: "center" },
+  { field: "planta", label: "Planta", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
+  { field: "ascensor", label: "Ascensor", visible: true, width: 80, highlight: false, sortable: false, align: "center" },
+  { field: "habitaciones", label: "Habitaciones", visible: true, width: 90, highlight: false, sortable: false, align: "center" },
+  { field: "baños", label: "Baños", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
+  { field: "calefacción", label: "Calefacción", visible: true, width: 100, highlight: false, sortable: false, align: "center" },
+  { field: "fachada", label: "Fachada", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "garaje", label: "Garaje", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "terraza", label: "Terraza", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
 ];
 
 const formFields = [
@@ -46,7 +46,7 @@ const initialRows = [
   {
     id: 1,
     link: "https://www.example.com/property/1",
-    kpi: "no calculado",
+    kpi: 0,
     precio: 250000,
     superficie: 120,
     eurom2: 2083,
@@ -62,7 +62,7 @@ const initialRows = [
   {
     id: 2,
     link: "https://www.example.com/property/2",
-    kpi: "no calculado",
+    kpi: 0,
     precio: 210000,
     superficie: 90,
     eurom2: 2333,
@@ -78,7 +78,7 @@ const initialRows = [
   {
     id: 3,
     link: "https://www.example.com/property/3",
-    kpi: "no calculado",
+    kpi: 0,
     precio: 320000,
     superficie: 150,
     eurom2: 2133,
@@ -111,7 +111,7 @@ function Content() {
       {
         ...newRow,
         id: prevRows.length ? Math.max(...prevRows.map(r => r.id)) + 1 : 1,
-        kpi: "no calculado",
+        kpi: 0,
         eurom2
       }
     ]);
