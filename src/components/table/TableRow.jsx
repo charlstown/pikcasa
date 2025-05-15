@@ -8,11 +8,11 @@ function TableRow({ row, columns, rowIndex, onRowDelete, onEditRow }) {
     <tr className="group hover:bg-teal-50 transition-colors">
       {columns
         .filter(({ visible }) => visible)
-        .map(({ field, highlight, align, accent }) => (
+        .map(({ field, highlight, align }) => (
           <td
             key={field}
             className={`p-2 text-sm text-slate-700
-              ${accent ? "bg-teal-400 text-white" : highlight ? "bg-teal-50" : "bg-white group-hover:bg-teal-50"}
+              ${highlight ? "bg-teal-50 text-teal-400 font-bold" : "bg-white group-hover:bg-teal-50"}
               ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}
           >
             {field === "link" ? (

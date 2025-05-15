@@ -30,7 +30,7 @@ function TableHeader({ columns, onSort }) {
           visible ? (
             <th
               key={field}
-              className={`p-2 px-4 py-4 text-sm font-medium leading-none text-slate-500 bg-slate-100 min-w-max whitespace-nowrap ${
+              className={`p-2 py-4 text-sm font-medium leading-none text-slate-500 bg-slate-100 min-w-max whitespace-nowrap ${
                 align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"
               }`}
             >
@@ -55,7 +55,7 @@ function TableHeader({ columns, onSort }) {
             </th>
           ) : null
         )}
-        <th className="p-4 bg-slate-100"></th>
+        <th className="p-2 bg-slate-100"></th>
       </tr>
     </thead>
   );

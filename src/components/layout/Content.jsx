@@ -6,7 +6,7 @@ import RoundedButton from '../common/RoundedButton';
 import CallToAction from './CallToAction';
 import DataTable from '../table/Table';
 import ModalCard from './ModalCard';
-import EditModalCard from './EditModalCard'; // Nuevo componente para editar
+import EditModalCard from './EditModalCard';
 
 import IconAddRow from '../../assets/IconAddRow';
 import { usePersistentState } from "../../hooks/usePersistentState";
@@ -14,15 +14,15 @@ import { usePersistentState } from "../../hooks/usePersistentState";
 const columns = [
   { field: "id", label: "ID", visible: false, width: 50, highlight: false, sortable: false, align: "left" },
   { field: "link", label: "Link", visible: true, width: 200, highlight: false, sortable: false, align: "center" },
-  { field: "kpi", label: "K-Pick", visible: true, width: 100, highlight: false, accent: true, sortable: true, align: "center" },
+  { field: "kpi", label: "K-Pick", visible: true, width: 100, highlight: true, sortable: true, align: "center" },
   { field: "precio", label: "Precio", visible: true, width: 100, highlight: false, sortable: true, align: "center" },
   { field: "superficie", label: "Superficie", visible: true, width: 80, highlight: false, sortable: true, align: "center" },
-  { field: "eurom2", label: "€/m²", visible: true, width: 90, highlight: true, sortable: true, align: "center" },
+  { field: "eurom2", label: "€/m²", visible: true, width: 90, highlight: false, sortable: true, align: "center" },
   { field: "planta", label: "Planta", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
   { field: "ascensor", label: "Ascensor", visible: true, width: 80, highlight: false, sortable: false, align: "center" },
   { field: "habitaciones", label: "Habitaciones", visible: true, width: 90, highlight: false, sortable: false, align: "center" },
   { field: "baños", label: "Baños", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
-  { field: "calefacción", label: "Calefacción", visible: true, width: 100, highlight: false, sortable: false, align: "center" },
+  { field: "calefaccion", label: "Calefacción", visible: true, width: 100, highlight: false, sortable: false, align: "center" },
   { field: "fachada", label: "Fachada", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
   { field: "garaje", label: "Garaje", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
   { field: "terraza", label: "Terraza", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
@@ -36,7 +36,7 @@ const formFields = [
   { name: "ascensor", label: "Ascensor", type: "select", options: ["Sí", "No"], default_option: "Sí", mandatory: false, placeholder: "Seleccione una opción", width: "half" },
   { name: "habitaciones", label: "Habitaciones", type: "numeric", mandatory: false, placeholder: "Número de habitaciones", width: "half" },
   { name: "baños", label: "Baños", type: "numeric", mandatory: false, placeholder: "Número de baños", width: "half" },
-  { name: "calefacción", label: "Calefacción", type: "select", options: ["Sí", "No"], default_option: "Sí", mandatory: false, placeholder: "Seleccione calefacción", width: "half" },
+  { name: "calefaccion", label: "Calefacción", type: "select", options: ["Sí", "No"], default_option: "Sí", mandatory: false, placeholder: "Seleccione calefacción", width: "half" },
   { name: "fachada", label: "Fachada", type: "select", options: ["Exterior", "Interior"], default_option: "Exterior", mandatory: false, width: "half" },
   { name: "terraza", label: "Terraza", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
   { name: "garaje", label: "Garaje", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
@@ -50,11 +50,11 @@ const initialRows = [
     precio: 250000,
     superficie: 120,
     eurom2: 2083,
-    planta: "Primera",
+    planta: "Intermedia",
     ascensor: "Sí",
     habitaciones: 3,
     baños: 2,
-    calefacción: "Sí",
+    calefaccion: "Sí",
     fachada: "Exterior",
     garaje: "No",
     terraza: "Sí",
@@ -70,7 +70,7 @@ const initialRows = [
     ascensor: "No",
     habitaciones: 2,
     baños: 1,
-    calefacción: "No",
+    calefaccion: "No",
     fachada: "Interior",
     garaje: "Sí",
     terraza: "No",
@@ -82,20 +82,23 @@ const initialRows = [
     precio: 320000,
     superficie: 150,
     eurom2: 2133,
-    planta: "Última",
+    planta: "Ático",
     ascensor: "Sí",
     habitaciones: 4,
     baños: 3,
-    calefacción: "Sí",
+    calefaccion: "Sí",
     fachada: "Exterior",
     garaje: "Sí",
     terraza: "Sí",
   },
 ];
 
+const API_URL = "https://o9qh2kvujg.execute-api.eu-west-3.amazonaws.com/generate-kpick";
+
 function Content() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rows, setRows] = usePersistentState("viviendas", initialRows);
+  const [loading, setLoading] = useState(false);
 
   // Estado para edición
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -105,12 +108,23 @@ function Content() {
   const handleAddRow = (newRow) => {
     const precio = Number(newRow.precio);
     const superficie = Number(newRow.superficie);
+    const habitaciones = Number(newRow.habitaciones);
+    const baños = Number(newRow.baños);
     const eurom2 = (precio && superficie) ? Math.round(precio / superficie) : "";
+
+    // Genera un id único incremental
+    const maxId = rows.length > 0 ? Math.max(...rows.map(r => r.id || 0)) : 0;
+    const nextId = maxId + 1;
+
     setRows(prevRows => [
       ...prevRows,
       {
         ...newRow,
-        id: prevRows.length ? Math.max(...prevRows.map(r => r.id)) + 1 : 1,
+        id: nextId, // <-- id generado aquí
+        precio,
+        superficie,
+        habitaciones,
+        baños,
         kpi: 0,
         eurom2
       }
@@ -145,12 +159,33 @@ function Content() {
     setRowToEdit(null);
   };
 
+  // Nueva función para generar K-Pick
+  const handleGenerateKPick = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rows }),
+      });
+      if (!response.ok) throw new Error("Error en la respuesta del servidor");
+      const data = await response.json();
+      if (data.rows) {
+        setRows(data.rows);
+      }
+    } catch (err) {
+      alert("Error generando K-Pick: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="bg-teal-50 flex-1 flex flex-col items-center justify-start p-2">
       <CallToAction />
       <div className="flex gap-4 mb-2">
-        <PrimaryButton className="flex items-center">
-          Generar K-Pick
+        <PrimaryButton className="flex items-center" onClick={handleGenerateKPick}>
+          {loading ? "Generando..." : "Generar K-Pick"}
         </PrimaryButton>
       </div>
 
