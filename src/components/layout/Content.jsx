@@ -3,29 +3,32 @@ import React, { useState } from 'react';
 
 import PrimaryButton from '../common/PrimaryButton';
 import RoundedButton from '../common/RoundedButton';
+import SquareButton from '../common/SquareButton';
 import CallToAction from './CallToAction';
 import DataTable from '../table/Table';
 import ModalCard from './ModalCard';
 import EditModalCard from './EditModalCard';
+import ColumnsModal from './ColumnsModal';
 
 import IconAddRow from '../../assets/IconAddRow';
+import IconEnableColumns from '../../assets/IconEnableColumns';
 import { usePersistentState } from "../../hooks/usePersistentState";
 
 const columns = [
-  { field: "id", label: "ID", visible: false, width: 50, highlight: false, sortable: false, align: "left" },
-  { field: "link", label: "Link", visible: true, width: 200, highlight: false, sortable: false, align: "center" },
-  { field: "kpi", label: "K-Pick", visible: true, width: 100, highlight: true, sortable: true, align: "center" },
-  { field: "precio", label: "Precio", visible: true, width: 100, highlight: false, sortable: true, align: "center" },
-  { field: "superficie", label: "Superficie", visible: true, width: 80, highlight: false, sortable: true, align: "center" },
-  { field: "eurom2", label: "€/m²", visible: true, width: 90, highlight: false, sortable: true, align: "center" },
-  { field: "planta", label: "Planta", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
-  { field: "ascensor", label: "Ascensor", visible: true, width: 80, highlight: false, sortable: false, align: "center" },
-  { field: "habitaciones", label: "Habitaciones", visible: true, width: 90, highlight: false, sortable: false, align: "center" },
-  { field: "baños", label: "Baños", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
-  { field: "calefaccion", label: "Calefacción", visible: true, width: 100, highlight: false, sortable: false, align: "center" },
-  { field: "fachada", label: "Fachada", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
-  { field: "garaje", label: "Garaje", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
-  { field: "terraza", label: "Terraza", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "id", active: true, label: "ID", visible: false, width: 50, highlight: false, sortable: false, align: "left" },
+  { field: "link", active: true, label: "Link", visible: true, width: 200, highlight: false, sortable: false, align: "center" },
+  { field: "kpi", active: true, label: "K-Pick", visible: true, width: 100, highlight: true, sortable: true, align: "center" },
+  { field: "precio", active: true, label: "Precio", visible: true, width: 100, highlight: false, sortable: true, align: "center" },
+  { field: "superficie", active: true, label: "Superficie", visible: true, width: 80, highlight: false, sortable: true, align: "center" },
+  { field: "eurom2", active: true, label: "€/m²", visible: true, width: 90, highlight: false, sortable: true, align: "center" },
+  { field: "planta", active: true, label: "Planta", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
+  { field: "ascensor", active: true, label: "Ascensor", visible: true, width: 80, highlight: false, sortable: false, align: "center" },
+  { field: "habitaciones", active: true, label: "Habitaciones", visible: true, width: 90, highlight: false, sortable: false, align: "center" },
+  { field: "baños", active: true, label: "Baños", visible: true, width: 70, highlight: false, sortable: false, align: "center" },
+  { field: "calefaccion", active: true, label: "Calefacción", visible: true, width: 100, highlight: false, sortable: false, align: "center" },
+  { field: "fachada", active: true, label: "Fachada", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "garaje", active: true, label: "Garaje", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "terraza", active: true, label: "Terraza", visible: true, width: 120, highlight: false, sortable: false, align: "center" },
 ];
 
 const formFields = [
@@ -104,6 +107,34 @@ function Content() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [rowToEdit, setRowToEdit] = useState(null);
 
+  // Estado para el modal de columnas
+  const [isColumnsModalOpen, setIsColumnsModalOpen] = useState(false);
+
+  // Nuevo estado para columns
+  const [columnsState, setColumnsState] = useState(columns);
+
+  // Estado para ordenación
+  const [sortConfig, setSortConfig] = useState({ field: null, direction: null });
+
+  // Ordena las filas según sortConfig
+  const getSortedRows = () => {
+    if (!sortConfig.field) return rows;
+    const sorted = [...rows].sort((a, b) => {
+      if (a[sortConfig.field] === undefined || b[sortConfig.field] === undefined) return 0;
+      if (sortConfig.direction === "asc") {
+        return a[sortConfig.field] > b[sortConfig.field] ? 1 : a[sortConfig.field] < b[sortConfig.field] ? -1 : 0;
+      } else {
+        return a[sortConfig.field] < b[sortConfig.field] ? 1 : a[sortConfig.field] > b[sortConfig.field] ? -1 : 0;
+      }
+    });
+    return sorted;
+  };
+
+  // Handler para cambiar la ordenación desde el header
+  const handleSort = (field, direction) => {
+    setSortConfig({ field, direction });
+  };
+
   // Añadir nueva fila desde el formulario
   const handleAddRow = (newRow) => {
     setRows(prevRows => {
@@ -165,10 +196,18 @@ function Content() {
   const handleGenerateKPick = async () => {
     setLoading(true);
     try {
+      const columnsPayload = columnsState.map(col => ({
+        field: col.field,
+        active: col.active,
+      }));
+
       const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ rows }),
+        body: JSON.stringify({
+          rows,
+          columns: columnsPayload,
+        }),
       });
       if (!response.ok) throw new Error("Error en la respuesta del servidor");
       const data = await response.json();
@@ -189,9 +228,28 @@ function Content() {
         <PrimaryButton className="flex items-center" onClick={handleGenerateKPick}>
           {loading ? "Generando..." : "Generar K-Pick"}
         </PrimaryButton>
+        <SquareButton
+          onClick={() => setIsColumnsModalOpen(true)}
+          className="ml-1"
+        >
+          <IconEnableColumns className="w-6 h-6 text-teal-400" />
+        </SquareButton>
       </div>
 
-      <DataTable columns={columns} rows={rows} onRowDelete={handleDeleteRow} onEditRow={handleEditRow} />
+      <ColumnsModal
+        isOpen={isColumnsModalOpen}
+        onClose={() => setIsColumnsModalOpen(false)}
+        columns={columnsState}
+        setColumns={setColumnsState}
+      />
+
+      <DataTable
+        columns={columnsState.filter(col => col.active)}
+        rows={getSortedRows()}
+        onRowDelete={handleDeleteRow}
+        onEditRow={handleEditRow}
+        onSort={handleSort}
+      />
 
       <RoundedButton onClick={() => setIsModalOpen(true)} className="flex items-center">
         <IconAddRow className="w-6 h-6 text-white" />
