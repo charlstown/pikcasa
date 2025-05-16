@@ -3,7 +3,7 @@ import IconDeleteRow from "../../assets/IconDeleteRow";
 import IconEditRow from "../../assets/IconEditRow";
 import IconLink from "../../assets/IconLink";
 
-function TableRow({ row, columns, rowIndex, onRowDelete, onEditRow }) {
+function TableRow({ row, columns, onRowDelete, onEditRow }) {
   return (
     <tr className="group hover:bg-teal-50 transition-colors">
       {columns
@@ -45,14 +45,14 @@ function TableRow({ row, columns, rowIndex, onRowDelete, onEditRow }) {
         <button
           type="button"
           className="text-slate-500 hover:text-teal-500"
-          onClick={() => onEditRow(rowIndex)}
+          onClick={onEditRow}
         >
           <IconEditRow />
         </button>
         <button
           type="button"
           className="text-slate-500 hover:text-red-500"
-          onClick={() => onRowDelete(rowIndex)}
+          onClick={onRowDelete}
         >
           <IconDeleteRow />
         </button>
