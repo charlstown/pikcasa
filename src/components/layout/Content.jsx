@@ -106,40 +106,42 @@ function Content() {
 
   // Añadir nueva fila desde el formulario
   const handleAddRow = (newRow) => {
-    const precio = Number(newRow.precio);
-    const superficie = Number(newRow.superficie);
-    const habitaciones = Number(newRow.habitaciones);
-    const baños = Number(newRow.baños);
-    const eurom2 = (precio && superficie) ? Math.round(precio / superficie) : "";
+    setRows(prevRows => {
+      const precio = Number(newRow.precio);
+      const superficie = Number(newRow.superficie);
+      const habitaciones = Number(newRow.habitaciones);
+      const baños = Number(newRow.baños);
+      const eurom2 = (precio && superficie) ? Math.round(precio / superficie) : "";
 
-    // Genera un id único incremental
-    const maxId = rows.length > 0 ? Math.max(...rows.map(r => r.id || 0)) : 0;
-    const nextId = maxId + 1;
+      // Calcula el id usando prevRows para evitar duplicados
+      const maxId = prevRows.length > 0 ? Math.max(...prevRows.map(r => r.id || 0)) : 0;
+      const nextId = maxId + 1;
 
-    setRows(prevRows => [
-      ...prevRows,
-      {
+      const newItem = {
         ...newRow,
-        id: nextId, // <-- id generado aquí
+        id: nextId,
         precio,
         superficie,
         habitaciones,
         baños,
         kpi: 0,
         eurom2
-      }
-    ]);
+      };
+
+      return [...prevRows, newItem];
+    });
     setIsModalOpen(false);
   };
 
-  // Eliminar fila
-  const handleDeleteRow = (rowIndex) => {
-    setRows(prevRows => prevRows.filter((_, idx) => idx !== rowIndex));
+  // Eliminar fila por id
+  const handleDeleteRow = (id) => {
+    setRows(prevRows => prevRows.filter(row => row.id !== id));
   };
 
-  // Editar fila
-  const handleEditRow = (rowIndex) => {
-    setRowToEdit({ ...rows[rowIndex], rowIndex });
+  // Editar fila por id
+  const handleEditRow = (id) => {
+    const idx = rows.findIndex(row => row.id === id);
+    setRowToEdit({ ...rows[idx], rowIndex: idx });
     setEditModalOpen(true);
   };
 

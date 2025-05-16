@@ -4,14 +4,13 @@ import TableRow from "./TableRow";
 function TableBody({ rows, columns, onRowDelete, onEditRow }) {
   return (
     <tbody>
-      {rows.map((row, rowIndex) => (
+      {rows.map((row) => (
         <TableRow
-          key={rowIndex}
+          key={row.id}
           row={row}
           columns={columns}
-          rowIndex={rowIndex}
-          onRowDelete={onRowDelete}
-          onEditRow={onEditRow}
+          onRowDelete={() => onRowDelete(row.id)}
+          onEditRow={() => onEditRow(row.id)}
         />
       ))}
     </tbody>
