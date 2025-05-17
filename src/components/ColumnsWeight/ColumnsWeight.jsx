@@ -1,38 +1,39 @@
 import React, { useState } from "react";
-import CheckList from "../common/CheckList";
+import CheckList from "./CheckList";
 
-function ColumnsModal({ isOpen, onClose, columns, setColumns }) {
+function ColumnsWeight({ isOpen, onClose, columns, setColumns }) {
   if (!isOpen) return null;
 
+  // Exclude columns that should not be toggled (emoji, id, link, etc.)
   const excludedFields = ["id", "link", "emoji", "kpi", "precio", "superficie", "eurom2"];
   const filteredColumns = columns.filter(col => !excludedFields.includes(col.field));
 
-  // Estado local para los checks
+  // Local state for checklist
   const [localColumns, setLocalColumns] = useState(filteredColumns.map(col => ({ ...col })));
 
-  // Sincroniza localColumns si columns cambia (opcional, para mantener consistencia)
+  // Sync localColumns if columns change
   React.useEffect(() => {
     setLocalColumns(filteredColumns.map(col => ({ ...col })));
     // eslint-disable-next-line
   }, [columns, isOpen]);
 
+  // Toggle weight between 0 and 1
   const handleCheckboxChange = (field) => {
     setLocalColumns(cols =>
       cols.map(col =>
-        col.field === field ? { ...col, active: !col.active } : col
+        col.field === field ? { ...col, weight: col.weight === 0 ? 1 : 0 } : col
       )
     );
   };
 
   const handleAccept = () => {
-    // Actualiza el estado global de columns
     setColumns(prevCols =>
       prevCols.map(col =>
         excludedFields.includes(col.field)
           ? col
           : {
               ...col,
-              active: localColumns.find(lc => lc.field === col.field)?.active ?? col.active,
+              weight: localColumns.find(lc => lc.field === col.field)?.weight ?? col.weight,
             }
       )
     );
@@ -47,7 +48,7 @@ function ColumnsModal({ isOpen, onClose, columns, setColumns }) {
       >
         <h2 className="text-lg font-semibold mb-1 text-slate-500">Activar/Desactivar columnas</h2>
         <p className="text-sm text-slate-500 mb-4">
-          Las seleccionadas se incluiran en el cálculo del K-Pick
+          Las seleccionadas se incluirán en el cálculo del K-Pick
         </p>
         <form>
           <CheckList items={localColumns} onToggle={handleCheckboxChange} />
@@ -64,4 +65,4 @@ function ColumnsModal({ isOpen, onClose, columns, setColumns }) {
   );
 }
 
-export default ColumnsModal;
+export default ColumnsWeight;

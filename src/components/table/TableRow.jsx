@@ -8,7 +8,7 @@ function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
   return (
     <tr className="group hover:bg-teal-50 transition-colors">
       {columns
-        .filter(({ visible }) => visible)
+        .filter(({ weight }) => weight !== 0)
         .map(({ field, highlight, align }) => (
           <td
             key={field}
@@ -47,7 +47,7 @@ function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
             )}
           </td>
         ))}
-      <td className="py-3 text-sm text-slate-700 align-middle flex items-center justify-center space-x-2 min-h-[2.5rem]">
+      <td className="py-3 mr-2 text-sm text-slate-700 align-middle flex items-center justify-center space-x-2 min-h-[2.5rem]">
         <button
           type="button"
           className="text-slate-500 hover:text-teal-500"

@@ -14,8 +14,9 @@ function TableHeader({ columns, onSort, sortConfig }) {
   return (
     <thead>
       <tr>
-        {columns.map(({ field, label, visible, sortable, align }) =>
-          visible ? (
+        {columns
+          .filter(col => col.weight !== 0)
+          .map(({ field, label, sortable, align }) => (
             <th
               key={field}
               className={`p-2 py-4 text-sm font-medium leading-none text-slate-500 bg-slate-100 min-w-max whitespace-nowrap ${
@@ -46,8 +47,7 @@ function TableHeader({ columns, onSort, sortConfig }) {
                 )}
               </div>
             </th>
-          ) : null
-        )}
+          ))}
         <th className="p-2 bg-slate-100"></th>
       </tr>
     </thead>
