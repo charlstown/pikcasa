@@ -4,7 +4,7 @@ import CheckList from "../common/CheckList";
 function ColumnsModal({ isOpen, onClose, columns, setColumns }) {
   if (!isOpen) return null;
 
-  const excludedFields = ["id", "link", "kpi", "precio", "superficie", "eurom2"];
+  const excludedFields = ["id", "link", "emoji", "kpi", "precio", "superficie", "eurom2"];
   const filteredColumns = columns.filter(col => !excludedFields.includes(col.field));
 
   // Estado local para los checks
