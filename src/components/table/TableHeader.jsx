@@ -1,25 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import SortIcon from "../../assets/SortIcon";
 import SortIconUp from "../../assets/SortIconUp";
 import SortIconDown from "../../assets/SortIconDown";
 
-function TableHeader({ columns, onSort }) {
-  const [sortState, setSortState] = useState({});
-
-  const toggleSort = (field) => {
-    setSortState((prevState) => {
-      const currentSort = prevState[field];
-      const nextSort = currentSort === "desc" ? "asc" : "desc";
-      const newSortState = { [field]: nextSort };
-      onSort(field, nextSort);
-      return newSortState;
-    });
-  };
-
+function TableHeader({ columns, onSort, sortConfig }) {
   const getSortIcon = (field) => {
-    const sortOrder = sortState[field];
-    if (sortOrder === "asc") return <SortIconUp className="w-4 h-4" />;
-    if (sortOrder === "desc") return <SortIconDown className="w-4 h-4" />;
+    if (!sortConfig || sortConfig.field !== field) return <SortIcon className="w-4 h-4" />;
+    if (sortConfig.direction === "asc") return <SortIconUp className="w-4 h-4" />;
+    if (sortConfig.direction === "desc") return <SortIconDown className="w-4 h-4" />;
     return <SortIcon className="w-4 h-4" />;
   };
 
@@ -46,7 +34,12 @@ function TableHeader({ columns, onSort }) {
                   <button
                     type="button"
                     className="ml-2 text-slate-500 hover:text-slate-700"
-                    onClick={() => toggleSort(field)}
+                    onClick={() =>
+                      onSort(
+                        field,
+                        sortConfig?.field === field && sortConfig.direction === "desc" ? "asc" : "desc"
+                      )
+                    }
                   >
                     {getSortIcon(field)}
                   </button>
