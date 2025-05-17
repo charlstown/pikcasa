@@ -120,11 +120,19 @@ function Content() {
   const getSortedRows = () => {
     if (!sortConfig.field) return rows;
     const sorted = [...rows].sort((a, b) => {
-      if (a[sortConfig.field] === undefined || b[sortConfig.field] === undefined) return 0;
+      let aValue = a[sortConfig.field];
+      let bValue = b[sortConfig.field];
+
+      if (sortConfig.field === "kpi") {
+        aValue = Number(aValue ?? 0);
+        bValue = Number(bValue ?? 0);
+      }
+
+      if (isNaN(aValue) || isNaN(bValue)) return 0;
       if (sortConfig.direction === "asc") {
-        return a[sortConfig.field] > b[sortConfig.field] ? 1 : a[sortConfig.field] < b[sortConfig.field] ? -1 : 0;
+        return aValue - bValue;
       } else {
-        return a[sortConfig.field] < b[sortConfig.field] ? 1 : a[sortConfig.field] > b[sortConfig.field] ? -1 : 0;
+        return bValue - aValue;
       }
     });
     return sorted;
@@ -192,7 +200,7 @@ function Content() {
     setRowToEdit(null);
   };
 
-  // Nueva función para generar K-Pick
+  // Nueva función para generar K-Pick y ordenar por kpi descendente
   const handleGenerateKPick = async () => {
     setLoading(true);
     try {
@@ -213,6 +221,7 @@ function Content() {
       const data = await response.json();
       if (data.rows) {
         setRows(data.rows);
+        setSortConfig({ field: "kpi", direction: "desc" }); // Ordena por K-Pick descendente
       }
     } catch (err) {
       alert("Error generando K-Pick: " + err.message);
@@ -231,8 +240,9 @@ function Content() {
         <SquareButton
           onClick={() => setIsColumnsModalOpen(true)}
           className="ml-1"
+          helperLabel="Activa o desactiva columnas"
         >
-          <IconEnableColumns className="w-6 h-6 text-teal-400" />
+          <IconEnableColumns />
         </SquareButton>
       </div>
 
@@ -249,9 +259,14 @@ function Content() {
         onRowDelete={handleDeleteRow}
         onEditRow={handleEditRow}
         onSort={handleSort}
+        sortConfig={sortConfig}
       />
 
-      <RoundedButton onClick={() => setIsModalOpen(true)} className="flex items-center">
+      <RoundedButton
+        onClick={() => setIsModalOpen(true)}
+        className="flex items-center"
+        helperLabel="Añade una nueva vivienda"
+      >
         <IconAddRow className="w-6 h-6 text-white" />
       </RoundedButton>
 
