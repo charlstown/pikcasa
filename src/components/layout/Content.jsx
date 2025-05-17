@@ -240,8 +240,9 @@ function Content() {
         <SquareButton
           onClick={() => setIsColumnsModalOpen(true)}
           className="ml-1"
+          helperLabel="Activa o desactiva columnas"
         >
-          <IconEnableColumns className="w-6 h-6 text-teal-400" />
+          <IconEnableColumns />
         </SquareButton>
       </div>
 
@@ -261,7 +262,11 @@ function Content() {
         sortConfig={sortConfig}
       />
 
-      <RoundedButton onClick={() => setIsModalOpen(true)} className="flex items-center">
+      <RoundedButton
+        onClick={() => setIsModalOpen(true)}
+        className="flex items-center"
+        helperLabel="Añade una nueva vivienda"
+      >
         <IconAddRow className="w-6 h-6 text-white" />
       </RoundedButton>
 

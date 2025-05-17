@@ -1,19 +1,29 @@
 // src/components/common/RoundedButton.jsx
-import React from "react";
+import React, { useState } from "react";
+import HelperTooltip from "./HelperTooltip";
 
-function RoundedButton({ onClick, children, className = "", color = "bg-teal-400", hoverColor = "hover:bg-teal-400/70" }) {
-  const baseClass =
-    "w-10 h-10 flex items-center justify-center text-white rounded-full transition-colors shadow";
+const RoundedButton = ({ children, helperLabel, ...props }) => {
+  const [showHelper, setShowHelper] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = () => setShowHelper(true);
+  const handleMouseLeave = () => setShowHelper(false);
+  const handleMouseMove = (e) => setMousePos({ x: e.clientX, y: e.clientY });
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`${baseClass} ${color} ${hoverColor} ${className}`}
-    >
-      {children}
-    </button>
+    <>
+      <button
+        {...props}
+        onMouseEnter={helperLabel ? handleMouseEnter : undefined}
+        onMouseLeave={helperLabel ? handleMouseLeave : undefined}
+        onMouseMove={helperLabel ? handleMouseMove : undefined}
+        className={`rounded-full bg-teal-400 hover:bg-teal-300 text-white p-3 shadow-md transition ${props.className || ""}`}
+      >
+        {children}
+      </button>
+      <HelperTooltip visible={showHelper} label={helperLabel} position={mousePos} />
+    </>
   );
-}
+};
 
 export default RoundedButton;
