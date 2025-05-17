@@ -2,16 +2,22 @@ import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import IconEmojiHeart from "../../assets/IconEmojiHeart";
 import IconEmojiCross from "../../assets/IconEmojiCross";
+import IconEmojiWarning from "../../assets/IconEmojiWarning";
+import IconEmojiCheck from "../../assets/IconEmojiCheck";
 
 const emojiOptions = [
   { key: "", icon: <span className="w-6 h-6 text-slate-300">–</span> },
   { key: "heart", icon: <IconEmojiHeart className="w-6 h-6 text-teal-500" /> },
+  { key: "check", icon: <IconEmojiCheck className="w-6 h-6 text-teal-500" /> },
+  { key: "warning", icon: <IconEmojiWarning className="w-6 h-6 text-yellow-500" /> },
   { key: "cross", icon: <IconEmojiCross className="w-6 h-6 text-red-500" /> },
 ];
 
 const emojiMap = {
   heart: <IconEmojiHeart className="w-6 h-6 text-teal-500" />,
   cross: <IconEmojiCross className="w-6 h-6 text-red-500" />,
+  warning: <IconEmojiWarning className="w-6 h-6 text-yellow-500" />,
+  check: <IconEmojiCheck className="w-6 h-6 text-teal-500" />,
   "": null,
 };
 
