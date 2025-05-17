@@ -2,8 +2,9 @@ import React from "react";
 import IconDeleteRow from "../../assets/IconDeleteRow";
 import IconEditRow from "../../assets/IconEditRow";
 import IconLink from "../../assets/IconLink";
+import EmojiSelectorCell from "./EmojiSelectorCell";
 
-function TableRow({ row, columns, onRowDelete, onEditRow }) {
+function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
   return (
     <tr className="group hover:bg-teal-50 transition-colors">
       {columns
@@ -24,6 +25,11 @@ function TableRow({ row, columns, onRowDelete, onEditRow }) {
               >
                 <IconLink />
               </a>
+            ) : field === "emoji" ? (
+              <EmojiSelectorCell
+                value={row.emoji}
+                onChange={emoji => onEmojiChange(row.id, emoji)}
+              />
             ) : field === "precio" ? (
               <span className="font-semibold text-slate-500">
                 {Number(row[field]).toLocaleString("es-ES")} €

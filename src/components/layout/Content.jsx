@@ -17,6 +17,7 @@ import { usePersistentState } from "../../hooks/usePersistentState";
 const columns = [
   { field: "id", active: true, label: "ID", visible: false, width: 50, highlight: false, sortable: false, align: "left" },
   { field: "link", active: true, label: "Link", visible: true, width: 200, highlight: false, sortable: false, align: "center" },
+  { field: "emoji", active: true, label: "❤️", visible: true, width: 60, highlight: false, sortable: false, align: "center" },
   { field: "kpi", active: true, label: "K-Pick", visible: true, width: 100, highlight: true, sortable: true, align: "center" },
   { field: "precio", active: true, label: "Precio", visible: true, width: 100, highlight: false, sortable: true, align: "center" },
   { field: "superficie", active: true, label: "Superficie", visible: true, width: 80, highlight: false, sortable: true, align: "center" },
@@ -49,6 +50,7 @@ const initialRows = [
   {
     id: 1,
     link: "https://www.example.com/property/1",
+    emoji: "",
     kpi: 0,
     precio: 250000,
     superficie: 120,
@@ -65,6 +67,7 @@ const initialRows = [
   {
     id: 2,
     link: "https://www.example.com/property/2",
+    emoji: "",
     kpi: 0,
     precio: 210000,
     superficie: 90,
@@ -81,6 +84,7 @@ const initialRows = [
   {
     id: 3,
     link: "https://www.example.com/property/3",
+    emoji: "",
     kpi: 0,
     precio: 320000,
     superficie: 150,
@@ -136,6 +140,15 @@ function Content() {
       }
     });
     return sorted;
+  };
+
+  //Handler para cambiar los emojis
+  const handleEmojiChange = (id, emoji) => {
+    setRows(prevRows =>
+      prevRows.map(row =>
+        row.id === id ? { ...row, emoji } : row
+      )
+    );
   };
 
   // Handler para cambiar la ordenación desde el header
@@ -260,6 +273,7 @@ function Content() {
         onEditRow={handleEditRow}
         onSort={handleSort}
         sortConfig={sortConfig}
+        onEmojiChange={handleEmojiChange}
       />
 
       <RoundedButton
