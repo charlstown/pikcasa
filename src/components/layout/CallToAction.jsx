@@ -5,8 +5,8 @@ function CallToAction() {
 
   return (
     <p className="p-2 mt-6 mb-4 max-w-3xl text-lg text-center text-slate-500 font-medium relative">
-      La forma más sencilla de comparar viviendas y elegir la mejor.
-      Añade tus datos y pulsa
+      La forma más sencilla de comparar viviendas en venta y elegir la mejor.
+      Añade tus viviendas favoritas y pulsa
       <span
         className="relative mx-1 underline underline-offset-4 decoration-teal-400 font-semibold cursor-default"
         onMouseEnter={() => setShowTooltip(true)}
