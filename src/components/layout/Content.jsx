@@ -22,10 +22,10 @@ const columns = [
   { field: "precio", weight: 1, label: "Precio", width: 100, highlight: false, sortable: true, align: "center" },
   { field: "superficie", weight: 1, label: "Superficie", width: 80, highlight: false, sortable: true, align: "center" },
   { field: "eurom2", weight: 1, label: "€/m²", width: 90, highlight: false, sortable: true, align: "center" },
-  { field: "planta", weight: 1, label: "Planta", width: 70, highlight: false, sortable: false, align: "center" },
-  { field: "ascensor", weight: 1, label: "Ascensor", width: 80, highlight: false, sortable: false, align: "center" },
   { field: "habitaciones", weight: 1, label: "Habitaciones", width: 90, highlight: false, sortable: false, align: "center" },
   { field: "baños", weight: 1, label: "Baños", width: 70, highlight: false, sortable: false, align: "center" },
+  { field: "planta", weight: 1, label: "Planta", width: 70, highlight: false, sortable: false, align: "center" },
+  { field: "ascensor", weight: 1, label: "Ascensor", width: 80, highlight: false, sortable: false, align: "center" },
   { field: "calefaccion", weight: 1, label: "Calefacción", width: 100, highlight: false, sortable: false, align: "center" },
   { field: "fachada", weight: 1, label: "Fachada", width: 120, highlight: false, sortable: false, align: "center" },
   { field: "garaje", weight: 1, label: "Garaje", width: 120, highlight: false, sortable: false, align: "center" },
@@ -55,10 +55,10 @@ const initialRows = [
     precio: 250000,
     superficie: 120,
     eurom2: 2083,
-    planta: "Intermedia",
-    ascensor: "Sí",
     habitaciones: 3,
     baños: 2,
+    planta: "Intermedia",
+    ascensor: "Sí",
     calefaccion: "Sí",
     fachada: "Exterior",
     garaje: "No",
@@ -72,10 +72,10 @@ const initialRows = [
     precio: 210000,
     superficie: 90,
     eurom2: 2333,
-    planta: "Baja",
-    ascensor: "No",
     habitaciones: 2,
     baños: 1,
+    planta: "Baja",
+    ascensor: "No",
     calefaccion: "No",
     fachada: "Interior",
     garaje: "Sí",
@@ -89,10 +89,10 @@ const initialRows = [
     precio: 320000,
     superficie: 150,
     eurom2: 2133,
+    habitaciones: 3,
+    baños: 2,
     planta: "Ático",
     ascensor: "Sí",
-    habitaciones: 4,
-    baños: 3,
     calefaccion: "Sí",
     fachada: "Exterior",
     garaje: "Sí",
@@ -115,7 +115,7 @@ function Content() {
   const [isColumnsWeightOpen, setIsColumnsWeightOpen] = useState(false);
 
   // Nuevo estado para columns
-  const [columnsState, setColumnsState] = useState(columns);
+  const [columnsState, setColumnsState] = usePersistentState("columnsState", columns);
 
   // Estado para ordenación
   const [sortConfig, setSortConfig] = useState({ field: null, direction: null });

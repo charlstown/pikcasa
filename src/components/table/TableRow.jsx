@@ -50,14 +50,14 @@ function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
       <td className="py-3 mr-2 text-sm text-slate-700 align-middle flex items-center justify-center space-x-2 min-h-[2.5rem]">
         <button
           type="button"
-          className="text-slate-500 hover:text-teal-500"
+          className="text-slate-400 hover:text-teal-500"
           onClick={onEditRow}
         >
           <IconEditRow />
         </button>
         <button
           type="button"
-          className="text-slate-500 hover:text-red-500"
+          className="text-slate-400 hover:text-red-500"
           onClick={onRowDelete}
         >
           <IconDeleteRow />

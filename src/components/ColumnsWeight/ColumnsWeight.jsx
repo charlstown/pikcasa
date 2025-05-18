@@ -1,27 +1,43 @@
-import React, { useState } from "react";
-import CheckList from "./CheckList";
+import React, { useState, useMemo, useEffect } from "react";
+import Checkbox from "../common/Checkbox";
+import ButtonSlider from "./ButtonSlider";
 
 function ColumnsWeight({ isOpen, onClose, columns, setColumns }) {
   if (!isOpen) return null;
 
-  // Exclude columns that should not be toggled (emoji, id, link, etc.)
   const excludedFields = ["id", "link", "emoji", "kpi", "precio", "superficie", "eurom2"];
-  const filteredColumns = columns.filter(col => !excludedFields.includes(col.field));
+  const filteredColumns = useMemo(
+    () => columns.filter(col => !excludedFields.includes(col.field)),
+    [columns]
+  );
 
-  // Local state for checklist
-  const [localColumns, setLocalColumns] = useState(filteredColumns.map(col => ({ ...col })));
+  const [localColumns, setLocalColumns] = useState(() => filteredColumns.map(col => ({ ...col })));
 
-  // Sync localColumns if columns change
-  React.useEffect(() => {
-    setLocalColumns(filteredColumns.map(col => ({ ...col })));
+  useEffect(() => {
+    if (isOpen) {
+      setLocalColumns(filteredColumns.map(col => ({ ...col })));
+    }
     // eslint-disable-next-line
-  }, [columns, isOpen]);
+  }, [isOpen, columns]);
 
-  // Toggle weight between 0 and 1
+  // Checkbox toggle: if checked, set weight to 1 (default); if unchecked, set to 0
   const handleCheckboxChange = (field) => {
     setLocalColumns(cols =>
       cols.map(col =>
-        col.field === field ? { ...col, weight: col.weight === 0 ? 1 : 0 } : col
+        col.field === field
+          ? { ...col, weight: col.weight === 0 ? 1 : 0 }
+          : col
+      )
+    );
+  };
+
+  // Slider change: set weight, if 0, also uncheck
+  const handleSliderChange = (field, newWeight) => {
+    setLocalColumns(cols =>
+      cols.map(col =>
+        col.field === field
+          ? { ...col, weight: newWeight }
+          : col
       )
     );
   };
@@ -43,7 +59,7 @@ function ColumnsWeight({ isOpen, onClose, columns, setColumns }) {
   return (
     <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50" onClick={onClose}>
       <div
-        className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-[24rem] max-h-screen overflow-y-auto"
+        className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-[28rem] max-h-screen overflow-y-auto"
         onClick={e => e.stopPropagation()}
       >
         <h2 className="text-lg font-semibold mb-1 text-slate-500">Activar/Desactivar columnas</h2>
@@ -51,10 +67,39 @@ function ColumnsWeight({ isOpen, onClose, columns, setColumns }) {
           Las seleccionadas se incluirán en el cálculo del K-Pick
         </p>
         <form>
-          <CheckList items={localColumns} onToggle={handleCheckboxChange} />
+          <table className="w-full text-left mb-4">
+            <thead>
+              <tr className="text-slate-500 text-md">
+                <th className="font-semibold px-2 py-1">Campos</th>
+                <th className="font-semibold px-2 py-1 w-1 whitespace-nowrap text-left min-w-[90px]">Pesos</th>
+              </tr>
+            </thead>
+            <tbody>
+              {localColumns.map(col => (
+                <tr key={col.field} className="border-b border-slate-100 last:border-b-0">
+                  <td className="px-2 py-2">
+                    <Checkbox
+                      id={`col-check-${col.field}`}
+                      checked={col.weight !== 0}
+                      onChange={() => handleCheckboxChange(col.field)}
+                      label={col.label}
+                      activeColor="teal-400"
+                    />
+                  </td>
+                  <td className="px-2 py-2 w-1 whitespace-nowrap min-w-[140px]">
+                    <ButtonSlider
+                      value={col.weight}
+                      onChange={w => handleSliderChange(col.field, w)}
+                      disabled={false}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           <button
             type="button"
-            className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-400 transition"
+            className="bg-teal-400 text-white px-4 py-2 rounded-md hover:bg-teal-300 transition w-full mt-2"
             onClick={handleAccept}
           >
             Aceptar

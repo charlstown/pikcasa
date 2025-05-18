@@ -70,7 +70,7 @@ function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
       </div>
       <button
         type="submit"
-        className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-400"
+        className="px-4 py-2 bg-teal-400 text-white rounded-lg hover:bg-teal-300"
       >
         {submitLabel || "Enviar"}
       </button>
