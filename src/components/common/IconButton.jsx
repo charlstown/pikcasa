@@ -1,25 +1,27 @@
-// src/components/common/PrimaryButton.jsx
 import React, { useState } from "react";
 import HelperTooltip from "./HelperTooltip";
 
-function PrimaryButton({ onClick, children, className = "", helperLabel }) {
+function IconButton({ onClick, children, className = "", helperLabel, ...props }) {
   const [showHelper, setShowHelper] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  const handleMouseEnter = () => setShowHelper(true);
+  const handleMouseEnter = (e) => {
+    setShowHelper(true);
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
   const handleMouseLeave = () => setShowHelper(false);
   const handleMouseMove = (e) => setMousePos({ x: e.clientX, y: e.clientY });
 
-  const baseClass = "px-4 py-2 bg-teal-400 text-white rounded-lg font-semibold hover:bg-teal-400/70 transition-colors shadow";
   return (
     <>
       <button
         type="button"
+        className={className}
         onClick={onClick}
-        className={`${baseClass} ${className}`}
         onMouseEnter={helperLabel ? handleMouseEnter : undefined}
         onMouseLeave={helperLabel ? handleMouseLeave : undefined}
         onMouseMove={helperLabel ? handleMouseMove : undefined}
+        {...props}
       >
         {children}
       </button>
@@ -28,4 +30,4 @@ function PrimaryButton({ onClick, children, className = "", helperLabel }) {
   );
 }
 
-export default PrimaryButton;
+export default IconButton;

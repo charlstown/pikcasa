@@ -1,5 +1,6 @@
 // src/components/layout/Content.jsx
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 import PrimaryButton from '../common/PrimaryButton';
 import RoundedButton from '../common/RoundedButton';
@@ -216,23 +217,41 @@ function Content() {
   // Nueva función para generar K-Pick y ordenar por kpi descendente
   const handleGenerateKPick = async () => {
     setLoading(true);
-    try {
-      const columnsPayload = columnsState.map(col => ({
-        field: col.field,
-        weight: col.weight,
-        active: true, // Always send active: true for backward compatibility
-      }));
+    const columnsPayload = columnsState.map(col => ({
+      field: col.field,
+      weight: col.weight,
+      active: true, // Always send active: true for backward compatibility
+    }));
 
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          rows,
-          columns: columnsPayload,
-        }),
-      });
+    const fetchPromise = fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        rows,
+        columns: columnsPayload,
+      }),
+    }).then(response => {
       if (!response.ok) throw new Error("Error en la respuesta del servidor");
-      const data = await response.json();
+      return response.json();
+    });
+
+    toast.promise(
+      fetchPromise,
+      {
+        loading: 'Generando K-Pick...',
+        success: <b>K-Pick generado!</b>,
+        error: <b>Error al generar el K-Pick.</b>,
+      },
+      {
+        iconTheme: {
+          primary: 'oklch(77.7% .152 181.912)', // teal-900
+          secondary: '#fff',
+        },
+      }
+    );
+
+    try {
+      const data = await fetchPromise;
       if (data.rows) {
         setRows(data.rows);
         setSortConfig({ field: "kpi", direction: "desc" }); // Ordena por K-Pick descendente
@@ -248,13 +267,17 @@ function Content() {
     <main className="bg-teal-50 flex-1 flex flex-col items-center justify-start p-2">
       <CallToAction />
       <div className="flex gap-4 mb-2">
-        <PrimaryButton className="flex items-center" onClick={handleGenerateKPick}>
+        <PrimaryButton
+          className="flex items-center"
+          onClick={handleGenerateKPick}
+          helperLabel="Genera el K-Pick y ordena tus viviendas"
+          >
           {loading ? "Generando..." : "Generar K-Pick"}
         </PrimaryButton>
         <SquareButton
           onClick={() => setIsColumnsWeightOpen(true)}
           className="ml-1"
-          helperLabel="Activa o desactiva columnas"
+          helperLabel="Ajusta los pesos de las columnas"
         >
           <IconEnableColumns />
         </SquareButton>
@@ -281,7 +304,7 @@ function Content() {
       <RoundedButton
         onClick={() => setIsModalOpen(true)}
         className="flex items-center"
-        helperLabel="Añade una nueva vivienda"
+        helperLabel="Añade una nueva vivienda a la tabla"
       >
         <IconAddRow className="w-6 h-6 text-white" />
       </RoundedButton>

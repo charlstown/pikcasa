@@ -3,6 +3,8 @@ import IconDeleteRow from "../../assets/IconDeleteRow";
 import IconEditRow from "../../assets/IconEditRow";
 import IconLink from "../../assets/IconLink";
 import EmojiSelectorCell from "./EmojiSelectorCell";
+import IconButton from "../common/IconButton";
+import IconLinkButton from "../common/IconLinkButton";
 
 function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
   return (
@@ -17,14 +19,9 @@ function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
               ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}
           >
             {field === "link" ? (
-              <a
-                href={row[field]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex justify-center items-center text-slate-500 hover:text-teal-500"
-              >
+              <IconLinkButton link={row[field]} labelHelper="Abrir link del anuncio">
                 <IconLink />
-              </a>
+              </IconLinkButton>
             ) : field === "emoji" ? (
               <EmojiSelectorCell
                 value={row.emoji}
@@ -48,20 +45,20 @@ function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
           </td>
         ))}
       <td className="py-3 mr-2 text-sm text-slate-700 align-middle flex items-center justify-center space-x-2 min-h-[2.5rem]">
-        <button
-          type="button"
+        <IconButton
           className="text-slate-400 hover:text-teal-500"
           onClick={onEditRow}
+          helperLabel="Editar fila"
         >
           <IconEditRow />
-        </button>
-        <button
-          type="button"
+        </IconButton>
+        <IconButton
           className="text-slate-400 hover:text-red-500"
           onClick={onRowDelete}
+          helperLabel="Eliminar fila"
         >
           <IconDeleteRow />
-        </button>
+        </IconButton>
       </td>
     </tr>
   );
