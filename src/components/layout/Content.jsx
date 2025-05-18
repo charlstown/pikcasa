@@ -15,7 +15,7 @@ import IconEnableColumns from '../../assets/IconEnableColumns';
 import { usePersistentState } from "../../hooks/usePersistentState";
 
 const columns = [
-  { field: "id", weight: 1, label: "ID", width: 50, highlight: false, sortable: false, align: "left" },
+  { field: "id", weight: 0, visible:false, label: "ID", width: 50, highlight: false, sortable: false, align: "left" },
   { field: "link", weight: 1, label: "Link", width: 200, highlight: false, sortable: false, align: "center" },
   { field: "emoji", weight: 1, label: "❤️", width: 60, highlight: false, sortable: false, align: "center" },
   { field: "kpi", weight: 1, label: "K-Pick", width: 100, highlight: true, sortable: true, align: "center" },
@@ -261,6 +261,7 @@ function Content() {
       </div>
 
       <ColumnsWeight
+        key={isColumnsWeightOpen ? "open" : "closed"}
         isOpen={isColumnsWeightOpen}
         onClose={() => setIsColumnsWeightOpen(false)}
         columns={columnsState}
@@ -268,7 +269,7 @@ function Content() {
       />
 
       <DataTable
-        columns={columnsState.filter(col => col.weight !== 0)}
+        columns={columnsState.filter(col => col.weight !== 0 && col.visible !== false)}
         rows={getSortedRows()}
         onRowDelete={handleDeleteRow}
         onEditRow={handleEditRow}

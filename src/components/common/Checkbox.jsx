@@ -40,7 +40,7 @@ function Checkbox({ id, checked, onChange, label, className = "", activeColor = 
         </span>
       </span>
       {label && (
-        <span className="ml-2 mt-px cursor-pointer select-none font-light text-gray-700">{label}</span>
+        <span className="ml-2 mt-px cursor-pointer select-none font-light text-slate-500">{label}</span>
       )}
     </label>
   );

@@ -15,7 +15,17 @@ function AppFooter() {
       <div className="flex justify-center items-center space-x-6">
         <p>PiKasa - Tu hogar, tu elección</p>
         <p>{version && `v${version}`}</p>
-        <p>By @charlstown</p>
+        <p>
+          By{" "}
+          <a
+            href="https://carlosgrande.me/about-me-carlos-grande/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-slate-200 transition"
+          >
+            charlstown
+          </a>
+        </p>
       </div>
     </footer>
   );
