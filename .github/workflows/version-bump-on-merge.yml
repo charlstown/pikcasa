@@ -1,26 +1,25 @@
-name: Bump VERSION on merge
+name: Bump VERSION in PR
 
 on:
   pull_request:
-    types: [closed, synchronize, opened, reopened]
+    types: [synchronize, opened, reopened]
     branches:
       - main
 
 jobs:
   bump-version:
     needs: check-branch-name
-    if: github.event.pull_request.merged == true || github.event.action in ['synchronize', 'opened', 'reopened']
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
+          ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get branch name
         id: branch
-        run: echo "branch_name=${{ github.event.pull_request.head.ref || github.head_ref }}" >> $GITHUB_OUTPUT
+        run: echo "branch_name=${{ github.head_ref }}" >> $GITHUB_OUTPUT
 
       - name: Read current version
         id: version
