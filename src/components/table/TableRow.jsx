@@ -1,5 +1,5 @@
 import React from "react";
-import IconDeleteRow from "../../assets/IconDeleteRow";
+import IconCross from "../../assets/IconCross";
 import IconEditRow from "../../assets/IconEditRow";
 import IconLink from "../../assets/IconLink";
 import EmojiSelectorCell from "./EmojiSelectorCell";
@@ -57,7 +57,7 @@ function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
           onClick={onRowDelete}
           helperLabel="Eliminar fila"
         >
-          <IconDeleteRow />
+          <IconCross />
         </IconButton>
       </td>
     </tr>
