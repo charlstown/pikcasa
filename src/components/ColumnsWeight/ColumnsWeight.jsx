@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import Checkbox from "../common/Checkbox";
 import ButtonSlider from "./ButtonSlider";
 import InfoTooltip from "../common/InfoTooltip";
+import WindowOverlay from "../common/WindowOverlay";
 
 function ColumnsWeight({ isOpen, onClose, columns, setColumns }) {
   if (!isOpen) return null;
@@ -68,70 +69,65 @@ function ColumnsWeight({ isOpen, onClose, columns, setColumns }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50" onClick={onClose}>
-      <div
-        className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-[28rem] max-h-screen overflow-y-auto"
-        onClick={e => e.stopPropagation()}
-      >
-        <h2 className="text-lg font-semibold mb-1 text-slate-500">Ajusta los pesos</h2>
-        <p className="text-sm text-slate-500 mb-4">
-          Indica qué variables influyen más en tu <span className="font-semibold">K-Pick</span>.
-        </p>
-        <form>
-          <table className="w-full text-left mb-4">
-            <thead>
-              <tr className="text-slate-500 text-md">
-                <th className="font-semibold px-2 py-1">
-                  <span className="inline-flex items-center gap-1">
-                    Campos
-                    <InfoTooltip color="text-slate-400">
-                      Selecciona los campos que quieres incluir en el cálculo del K-Pick.
-                    </InfoTooltip>
-                  </span>
-                </th>
-                <th className="font-semibold px-2 py-1 w-1 whitespace-nowrap text-left min-w-[90px]">
-                  <span className="inline-flex items-center gap-1">
-                    Pesos
-                    <InfoTooltip color="text-slate-400">
-                      Ajusta el peso relativo de cada campo. Un peso mayor significa que ese criterio tendrá más importancia en el resultado del K-Pick.
-                    </InfoTooltip>
-                  </span>
-                </th>
+    <WindowOverlay isOpen={isOpen} onClose={onClose}>
+      <h2 className="text-lg font-semibold mb-1 text-slate-500">Ajusta los pesos</h2>
+      <p className="text-sm text-slate-500 mb-4">
+        Indica qué variables influyen más en tu <span className="font-semibold">K-Pick</span>.
+      </p>
+      <form>
+        <table className="w-full text-left mb-4">
+          <thead>
+            <tr className="text-slate-500 text-md">
+              <th className="font-semibold px-2 py-1">
+                <span className="inline-flex items-center gap-1">
+                  Campos
+                  <InfoTooltip color="text-slate-400">
+                    Selecciona los campos que quieres incluir en el cálculo del K-Pick.
+                  </InfoTooltip>
+                </span>
+              </th>
+              <th className="font-semibold px-2 py-1 w-1 whitespace-nowrap text-left min-w-[90px]">
+                <span className="inline-flex items-center gap-1">
+                  Pesos
+                  <InfoTooltip color="text-slate-400">
+                    Ajusta el peso relativo de cada campo. Un peso mayor significa que ese criterio tendrá más importancia en el resultado del K-Pick.
+                  </InfoTooltip>
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {localColumns.map(col => (
+              <tr key={col.field} className="border-b border-slate-100 last:border-b-0">
+                <td className="px-2 py-2">
+                  <Checkbox
+                    id={`col-check-${col.field}`}
+                    checked={col.weight !== 0}
+                    onChange={() => handleCheckboxChange(col.field)}
+                    label={col.label}
+                    activeColor="teal-400"
+                  />
+                </td>
+                <td className="px-2 py-2 w-1 whitespace-nowrap min-w-[140px]">
+                  <ButtonSlider
+                    value={col.weight}
+                    onChange={w => handleSliderChange(col.field, w)}
+                    disabled={false}
+                  />
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {localColumns.map(col => (
-                <tr key={col.field} className="border-b border-slate-100 last:border-b-0">
-                  <td className="px-2 py-2">
-                    <Checkbox
-                      id={`col-check-${col.field}`}
-                      checked={col.weight !== 0}
-                      onChange={() => handleCheckboxChange(col.field)}
-                      label={col.label}
-                      activeColor="teal-400"
-                    />
-                  </td>
-                  <td className="px-2 py-2 w-1 whitespace-nowrap min-w-[140px]">
-                    <ButtonSlider
-                      value={col.weight}
-                      onChange={w => handleSliderChange(col.field, w)}
-                      disabled={false}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button
-            type="button"
-            className="bg-teal-400 text-white px-4 py-2 rounded-md hover:bg-teal-300 transition w-full mt-2"
-            onClick={handleAccept}
-          >
-            Aceptar
-          </button>
-        </form>
-      </div>
-    </div>
+            ))}
+          </tbody>
+        </table>
+        <button
+          type="button"
+          className="bg-teal-400 text-white px-4 py-2 rounded-md hover:bg-teal-300 transition w-full mt-2"
+          onClick={handleAccept}
+        >
+          Aceptar
+        </button>
+      </form>
+    </WindowOverlay>
   );
 }
 
