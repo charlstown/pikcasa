@@ -11,7 +11,7 @@ jobs:
       - name: Check branch name
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
-          if [[ ! "$BRANCH_NAME" =~ ^(release|feature|fix|chore)-.+$ ]]; then
-            echo "ERROR: La rama debe empezar por release-, feature-, fix- o chore-"
+          if [[ ! "$BRANCH_NAME" =~ ^(release|feature|fix|chore).+$ ]]; then
+            echo "ERROR: La rama debe empezar por release, feature, fix o chore"
             exit 1
           fi
