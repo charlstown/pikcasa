@@ -273,7 +273,7 @@ function MainContent() {
           className="flex items-center"
           helperLabel="Añade una nueva vivienda a la tabla"
           iconColor='text-white'
-          bgColor='bg-teal-400'
+          colorType='accent'
           hoverColor='bg-teal-300'
         >
           <IconAddRow className="w-6 h-6 text-white" />
