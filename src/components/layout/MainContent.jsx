@@ -103,7 +103,7 @@ const initialRows = [
 
 const API_URL = "https://o9qh2kvujg.execute-api.eu-west-3.amazonaws.com/generate-kpick";
 
-function Content() {
+function MainContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rows, setRows] = usePersistentState("viviendas", initialRows);
   const [loading, setLoading] = useState(false);
@@ -267,13 +267,18 @@ function Content() {
     <main className="bg-teal-50 flex-1 flex flex-col items-center justify-start p-2">
       <CallToAction />
       <div className="flex gap-4 mb-2">
-        <PrimaryButton
+
+        <SquareButton
+          onClick={() => setIsModalOpen(true)}
           className="flex items-center"
-          onClick={handleGenerateKPick}
-          helperLabel="Genera el K-Pick y ordena tus viviendas"
-          >
-          {loading ? "Generando..." : "Generar K-Pick"}
-        </PrimaryButton>
+          helperLabel="Añade una nueva vivienda a la tabla"
+          iconColor='text-white'
+          colorType='accent'
+          hoverColor='bg-teal-300'
+        >
+          <IconAddRow className="w-6 h-6 text-white" />
+        </SquareButton>
+
         <SquareButton
           onClick={() => setIsColumnsWeightOpen(true)}
           className="ml-1"
@@ -301,13 +306,13 @@ function Content() {
         onEmojiChange={handleEmojiChange}
       />
 
-      <RoundedButton
-        onClick={() => setIsModalOpen(true)}
-        className="flex items-center"
-        helperLabel="Añade una nueva vivienda a la tabla"
-      >
-        <IconAddRow className="w-6 h-6 text-white" />
-      </RoundedButton>
+        <PrimaryButton
+          className="flex items-center"
+          onClick={handleGenerateKPick}
+          helperLabel="Genera el K-Pick y ordena tus viviendas"
+          >
+          {loading ? "Generando..." : "Generar K-Pick"}
+        </PrimaryButton>
 
       <ModalCard
         isOpen={isModalOpen}
@@ -327,4 +332,4 @@ function Content() {
   );
 }
 
-export default Content;
+export default MainContent;
