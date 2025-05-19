@@ -1,0 +1,11 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+	<title>Proyecto nuevo</title>
+	<defs>
+		<image  width="52" height="40" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAoCAMAAACGsik5AAAAAXNSR0IB2cksfwAAATJQTFRF////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Y4jS+QAAAGZ0Uk5TABIeAXG0DIX0/7YEAzXt+oEJ2PhdKxXH5VU50wqR4xzRkPPbWMT+OvlsoOr7ZA+qI8mUBwhy9yHOko/xor0CQwucrB1h3iQ93ObaPiXo70cUz2B4Gcz8DaP9BuBjgMB0IDBwaE4QW0IO6AAAAl9JREFUeJztle9Lk1EUx7+nNUW3iqwVC9fYXCtf6CwFG4wyLEoyEpUCqxf9+LOqN5VQaBgZFSVZDFYwy9kLa82NNWmUZVTbRNc63T332Xq2PZa+FDov7vl+z70fzr3PvWMEbRD9gl6sYy5ZpjUGIlrSYaqYObccVC0gSlcwJsHwoj5kJsqiiuhrGbOZeQlG5pQetMG4IMZa+iytBXNSbOWMGGuyP3SgbfRdyZsomU87CPwhL6z8Talv5E8VUH2hAyzvxWCnj9jOcaF2qg1Fx9kyyGyRDfItIuIbN1ACNp4RN+CSDfMt51IlkMFFcansFM7BsDumGMdbod1cmOJITgtZ66JSNFAshWYKqxtw8xTMDp6Rzjmf1EAt9EZd1UgTaCN6rdom5iBaeVq1e3iyCLVTSBZr3YlZmDz0svhN93EojXpbOCOth18UIN+EuqTNzzhAk9qnVNXCz0C+oGpb/RLqoOdqxUtjYoOLSWjDWi0218kB1e7ncQGZvH55MJudxnI4Sk9RGgf5IQydHE8ojn2BNMG1a1xOHqJ7QDc9Rnkc5lHgOD+RruNdhNqns9IcoTtADz2oYIBjPAKc5EfSGRup976UTbZhoJ9GdRjRn4eAvoR6EV0F6ETMeRN2L43oQj0ciON01HG3FHJ6BsWppjK6jLjAZnGigVC0FOq9AZwdXgbJR9914MztSujc0F+g/mv/oZVCNd1KGl1YDXRKPny+tRqoS04XHuYag87/VITx6gqgC/L3ul77//RPqBBrCLo4X5RbLivp0pdipe6KPtS2tyjTg0oaMBUrr4J/Fv4Gpd0Z8OJnZzYAAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+		.s0 { fill: #00d5be } 
+	</style>
+	<path id="Forma 2" fill-rule="evenodd" class="s0" d="m13 1h38c6.6 0 12 5.4 12 12v38c0 6.6-5.4 12-12 12h-38c-6.6 0-12-5.4-12-12v-38c0-6.6 5.4-12 12-12z"/>
+	<use id="pickasa-logo" href="#img1" x="6" y="11"/>
+</svg>
