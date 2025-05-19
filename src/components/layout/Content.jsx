@@ -31,6 +31,10 @@ const columns = [
   { field: "fachada", weight: 1, label: "Fachada", width: 120, highlight: false, sortable: false, align: "center" },
   { field: "garaje", weight: 1, label: "Garaje", width: 120, highlight: false, sortable: false, align: "center" },
   { field: "terraza", weight: 1, label: "Terraza", width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "trastero", weight: 0, label: "Trastero", width: 100, highlight: false, sortable: false, align: "center" },
+  { field: "ac", weight: 0, label: "Aire acond.", width: 120, highlight: false, sortable: false, align: "center" },
+  { field: "año", weight: 0, label: "Año de const.", width: 120, highlight: false, sortable: true, align: "center" },
+  { field: "estado", weight: 0, label: "Estado", width: 150, highlight: false, sortable: false, align: "center" },
 ];
 
 const formFields = [
@@ -45,6 +49,10 @@ const formFields = [
   { name: "fachada", label: "Fachada", type: "select", options: ["Exterior", "Interior"], default_option: "Exterior", mandatory: false, width: "half" },
   { name: "terraza", label: "Terraza", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
   { name: "garaje", label: "Garaje", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
+  { name: "trastero", label: "Trastero", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
+  { name: "ac", label: "Aire acond.", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
+  { name: "año", label: "Año de construcción", type: "numeric", mandatory: false, placeholder: "Año de construcción", width: "half" },
+  { name: "estado", label: "Estado", type: "select", options: ["Nueva/reformada", "Buen estado", "Necesita reforma", "Reforma integral"], default_option: "Buen estado", mandatory: false, width: "half" },
 ];
 
 const initialRows = [
@@ -220,7 +228,6 @@ function Content() {
     const columnsPayload = columnsState.map(col => ({
       field: col.field,
       weight: col.weight,
-      active: true, // Always send active: true for backward compatibility
     }));
 
     const fetchPromise = fetch(API_URL, {
