@@ -1,4 +1,4 @@
-import { features } from './appData';
+import { appData } from './appData';
 
 // Campos del formulario sin label, type ni options
 const baseFormFields = [
@@ -85,18 +85,17 @@ const baseFormFields = [
   }
 ];
 
-// Mergea label, type y options desde features si existen
-function mergeWithFeatures(field) {
-  const feature = features.find(f => f.field === field.field);
+// Mergea label, type y options desde appData si existen
+function mergeWithappData(field) {
+  const feature = appData.find(f => f.field === field.field);
   if (feature) {
     return {
       ...field,
       label: feature.label,
-      type: feature.type,
       options: feature.options
     };
   }
   return field;
 }
 
-export const formFields = baseFormFields.map(mergeWithFeatures);
+export const configForm = baseFormFields.map(mergeWithappData);

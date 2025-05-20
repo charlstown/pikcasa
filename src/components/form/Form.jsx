@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import FormField from "./FormField";
 
-function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
+function Form({ configForm, onSubmit, title, submitLabel, initialValues }) {
   const getInitialState = () =>
-    formFields.reduce(
+    configForm.reduce(
       (acc, field) => ({
         ...acc,
         [field.field]:
@@ -20,7 +20,7 @@ function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
   // Si initialValues cambia (por ejemplo, al editar otra fila), actualiza el estado
   useEffect(() => {
     setFormData(getInitialState());
-  }, [initialValues, formFields]);
+  }, [initialValues, configForm]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +30,7 @@ function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
 
   const validate = () => {
     const newErrors = {};
-    formFields.forEach((field) => {
+    configForm.forEach((field) => {
       const value = formData[field.field];
       if (field.mandatory && !value) {
         newErrors[field.field] = `${field.label} es obligatorio.`;
@@ -58,7 +58,7 @@ function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
     <form onSubmit={handleSubmit} className="space-y-4">
       {title && <h2 className="text-xl font-bold mb-4 text-slate-500">{title}</h2>}
       <div className="flex flex-wrap -mx-2">
-        {formFields.map((field) => (
+        {configForm.map((field) => (
           <FormField
             key={field.field}
             field={field}

@@ -4,7 +4,7 @@ import Form from "../form/Form";
 import { useAppConfig } from '../../config/AppConfigContext';
 
 function EditModalCard({ isOpen, onClose, onSubmit, rowData }) {
-  const { formFields } = useAppConfig();
+  const { configForm } = useAppConfig();
   if (!isOpen) return null;
 
   const handleFormSubmit = (formData) => {
@@ -14,7 +14,7 @@ function EditModalCard({ isOpen, onClose, onSubmit, rowData }) {
   return (
     <WindowOverlay isOpen={isOpen} onClose={onClose}>
       <Form
-        formFields={formFields}
+        configForm={configForm}
         onSubmit={handleFormSubmit}
         title="Editar Vivienda"
         submitLabel="Guardar cambios"

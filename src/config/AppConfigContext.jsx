@@ -1,17 +1,17 @@
 // src/config/AppConfigContext.jsx
 import React, { createContext, useContext } from 'react';
 import { tableColumns } from './configTable';
-import { formFields } from './configForm';
-import { features } from './appData';
+import { configForm } from './configForm';
+import { appData } from './appData';
 
 export const AppConfigContext = createContext({
   tableColumns,
-  formFields,
-  features,
+  configForm,
+  appData,
 });
 
 export const AppConfigProvider = ({ children }) => (
-  <AppConfigContext.Provider value={{ tableColumns, formFields, features }}>
+  <AppConfigContext.Provider value={{ tableColumns, configForm, appData }}>
     {children}
   </AppConfigContext.Provider>
 );

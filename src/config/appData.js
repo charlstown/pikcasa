@@ -1,5 +1,5 @@
 // src/config/appData.js
-export const features = [
+export const appData = [
   {
     field: "id",
     isKpick: false,

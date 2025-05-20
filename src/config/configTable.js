@@ -1,5 +1,5 @@
 // src/config/configTable.js
-import { features } from './appData';
+import { appData } from './appData';
 
 // Columnas base sin label, type ni options
 const baseTableColumns = [
@@ -136,8 +136,8 @@ const baseTableColumns = [
   }
 ];
 
-function mergeWithFeatures(col) {
-  const feature = features.find(f => f.field === col.field);
+function mergeWithappData(col) {
+  const feature = appData.find(f => f.field === col.field);
   if (feature) {
     return {
       ...col,
@@ -147,4 +147,4 @@ function mergeWithFeatures(col) {
   return col;
 }
 
-export const tableColumns = baseTableColumns.map(mergeWithFeatures);
+export const tableColumns = baseTableColumns.map(mergeWithappData);

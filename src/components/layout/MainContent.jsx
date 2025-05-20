@@ -19,7 +19,7 @@ import { initialRows } from '../../config/initialRows';
 import { API_URL } from '../../config/api';
 
 function MainContent() {
-  const { tableColumns, formFields, features } = useAppConfig();
+  const { tableColumns, configForm, features } = useAppConfig();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rows, setRows] = usePersistentState("viviendas", initialRows);
   const [loading, setLoading] = useState(false);
