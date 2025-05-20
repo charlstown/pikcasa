@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import HelperTooltip from "./HelperTooltip";
 
-const SquareButton = ({ children, helperLabel, ...props }) => {
+const SquareButton = ({
+  children,
+  helperLabel,
+  colorType = "white", // "accent" o "white"
+  ...props
+}) => {
   const [showHelper, setShowHelper] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [hover, setHover] = useState(false);
@@ -10,8 +15,16 @@ const SquareButton = ({ children, helperLabel, ...props }) => {
   const handleMouseLeave = () => { setShowHelper(false); setHover(false); };
   const handleMouseMove = (e) => setMousePos({ x: e.clientX, y: e.clientY });
 
-  // Cambia el color según hover
-  const iconColor = hover ? "text-teal-300" : "text-teal-400";
+  // Definición de estilos según colorType y hover
+  let buttonBgClass = "";
+  let iconColor = "";
+  if (colorType === "accent") {
+    buttonBgClass = hover ? "bg-teal-300" : "bg-teal-400";
+    iconColor = "text-white";
+  } else { // white
+    buttonBgClass = hover ? "bg-white" : "bg-white";
+    iconColor = hover ? "text-teal-300" : "text-teal-400";
+  }
 
   // Si el hijo es un icono, pásale la clase de color
   const childWithColor = React.isValidElement(children)
@@ -25,7 +38,7 @@ const SquareButton = ({ children, helperLabel, ...props }) => {
         onMouseEnter={helperLabel ? handleMouseEnter : undefined}
         onMouseLeave={helperLabel ? handleMouseLeave : undefined}
         onMouseMove={helperLabel ? handleMouseMove : undefined}
-        className={`rounded-md bg-white p-2 shadow transition ${props.className || ""}`}
+        className={`rounded-md ${buttonBgClass} p-2 shadow transition ${props.className || ""}`}
       >
         {childWithColor}
       </button>

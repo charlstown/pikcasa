@@ -1,0 +1,71 @@
+name: Bump VERSION in PR
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    branches:
+      - main
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ ! "$BRANCH_NAME" =~ ^(release|feature|fix|chore).+$ ]]; then
+            echo "ERROR: La rama debe empezar por release, feature, fix o chore"
+            exit 1
+          fi
+
+  bump-version:
+    needs: check-branch-name
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get branch name
+        id: branch
+        run: echo "branch_name=${{ github.head_ref }}" >> $GITHUB_OUTPUT
+
+      - name: Read current version
+        id: version
+        run: |
+          VERSION=$(cat public/VERSION)
+          echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        id: bump
+        run: |
+          VERSION="${{ steps.version.outputs.current_version }}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          BRANCH="${{ steps.branch.outputs.branch_name }}"
+          if [[ "$BRANCH" =~ ^release ]]; then
+            MAJOR=$((MAJOR+1)); MINOR=0; PATCH=0
+          elif [[ "$BRANCH" =~ ^feature ]]; then
+            MINOR=$((MINOR+1)); PATCH=0
+          elif [[ "$BRANCH" =~ ^fix ]]; then
+            PATCH=$((PATCH+1))
+          elif [[ "$BRANCH" =~ ^chore ]]; then
+            echo "No version bump for chore branches"
+            echo "new_version=" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "ERROR: Rama no válida para versionado"; exit 1
+          fi
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo $MAJOR.$MINOR.$PATCH > public/VERSION
+          echo "new_version=$MAJOR.$MINOR.$PATCH" >> $GITHUB_OUTPUT
+
+      - name: Commit and push VERSION
+        if: steps.bump.outputs.new_version != ''
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add public/VERSION
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.new_version }}"
+          git push
