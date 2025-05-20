@@ -1,7 +1,7 @@
 import React from "react";
 
 function FormField({ field, value, onChange, error }) {
-  const { name, label, type, options, maxLength, placeholder, width, default_option } = field;
+  const { field: fieldName, label, type, options, maxLength, placeholder, width, default_option } = field;
 
   // Determina la clase de ancho según el valor de `width`
   const widthClass = width === "half" ? "w-1/2" : "w-full";
@@ -12,7 +12,7 @@ function FormField({ field, value, onChange, error }) {
         {label}
         {type === "select" ? (
           <select
-            name={name}
+            name={fieldName}
             value={value}
             onChange={onChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm font-normal placeholder-gray-400"
@@ -29,7 +29,7 @@ function FormField({ field, value, onChange, error }) {
         ) : (
           <input
             type={type === "numeric" ? "number" : "text"}
-            name={name}
+            name={fieldName}
             value={value}
             onChange={onChange}
             maxLength={type === "string" ? maxLength : undefined}

@@ -1,8 +1,10 @@
 import React from "react";
 import WindowOverlay from "../common/WindowOverlay";
 import Form from "../form/Form";
+import { useAppConfig } from '../../config/AppConfigContext';
 
-function EditModalCard({ isOpen, onClose, onSubmit, formFields, rowData }) {
+function EditModalCard({ isOpen, onClose, onSubmit, rowData }) {
+  const { formFields } = useAppConfig();
   if (!isOpen) return null;
 
   const handleFormSubmit = (formData) => {

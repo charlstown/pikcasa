@@ -11,12 +11,11 @@ function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
     <tr className="group hover:bg-teal-50 transition-colors">
       {columns
         .filter(({ weight }) => weight !== 0)
-        .map(({ field, highlight, align }) => (
+        .map(({ field, highlight }) => (
           <td
             key={field}
-            className={`p-2 text-sm text-slate-700 min-h-[2.5rem]
-              ${highlight ? "bg-teal-50 text-teal-400 font-bold" : "bg-white group-hover:bg-teal-50"}
-              ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}
+            className={`p-2 text-sm text-slate-700 min-h-[2.5rem] text-center
+              ${highlight ? "bg-teal-50 text-teal-400 font-bold" : "bg-white group-hover:bg-teal-50"}`}
           >
             {field === "link" ? (
               <IconLinkButton link={row[field]} labelHelper="Abrir link del anuncio">
@@ -28,19 +27,19 @@ function TableRow({ row, columns, onRowDelete, onEditRow, onEmojiChange }) {
                 onChange={emoji => onEmojiChange(row.id, emoji)}
               />
             ) : field === "precio" ? (
-              <span className="font-semibold text-slate-500">
+              <span className="font-semibold text-slate-500 text-center block">
                 {Number(row[field]).toLocaleString("es-ES")} €
               </span>
             ) : field === "superficie" ? (
-              <span className="font-semibold text-slate-500">
+              <span className="font-semibold text-slate-500 text-center block">
                 {Number(row[field]).toLocaleString("es-ES")} m²
               </span>
             ) : field === "eurom2" ? (
-              <span className="font-semibold text-slate-500">
+              <span className="font-semibold text-slate-500 text-center block">
                 {row[field] ? `${Number(row[field]).toLocaleString("es-ES")} €/m²` : ""}
               </span>
             ) : (
-              row[field]
+              <span className="text-center block">{row[field]}</span>
             )}
           </td>
         ))}

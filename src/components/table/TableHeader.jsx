@@ -16,18 +16,12 @@ function TableHeader({ columns, onSort, sortConfig }) {
       <tr>
         {columns
           .filter(col => col.weight !== 0)
-          .map(({ field, label, sortable, align }) => (
+          .map(({ field, label, sortable }) => (
             <th
               key={field}
-              className={`p-2 py-4 text-sm font-medium leading-none text-slate-500 bg-slate-100 min-w-max whitespace-nowrap ${
-                align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"
-              }`}
+              className="p-2 py-4 text-sm font-medium leading-none text-slate-500 bg-slate-100 min-w-max whitespace-nowrap text-center"
             >
-              <div
-                className={`inline-flex items-center ${
-                  align === "center" ? "justify-center" : align === "right" ? "justify-end" : "justify-start"
-                }`}
-              >
+              <div className="inline-flex items-center justify-center">
                 <span>
                   {label ?? field}
                 </span>

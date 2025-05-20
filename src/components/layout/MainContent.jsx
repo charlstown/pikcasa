@@ -6,112 +6,20 @@ import PrimaryButton from '../common/PrimaryButton';
 import RoundedButton from '../common/RoundedButton';
 import SquareButton from '../common/SquareButton';
 import CallToAction from './CallToAction';
-import DataTable from '../table/Table';
+import DataTable from '../table/DataTable';
 import ModalCard from './ModalCard';
 import EditModalCard from './EditModalCard';
 import ColumnsWeight from '../ColumnsWeight/ColumnsWeight';
 
+import { useAppConfig } from '../../config/AppConfigContext';
 import IconAddRow from '../../assets/IconAddRow';
 import IconEnableColumns from '../../assets/IconEnableColumns';
 import { usePersistentState } from "../../hooks/usePersistentState";
-
-const columns = [
-  { field: "id", weight: 0, visible:false, label: "ID", width: 50, highlight: false, sortable: false, align: "left" },
-  { field: "link", weight: 1, label: "Link", width: 200, highlight: false, sortable: false, align: "center" },
-  { field: "emoji", weight: 1, label: "❤️", width: 60, highlight: false, sortable: false, align: "center" },
-  { field: "kpi", weight: 1, label: "K-Pick", width: 100, highlight: true, sortable: true, align: "center" },
-  { field: "precio", weight: 1, label: "Precio", width: 100, highlight: false, sortable: true, align: "center" },
-  { field: "superficie", weight: 1, label: "Superficie", width: 80, highlight: false, sortable: true, align: "center" },
-  { field: "eurom2", weight: 1, label: "€/m²", width: 90, highlight: false, sortable: true, align: "center" },
-  { field: "habitaciones", weight: 1, label: "Habitaciones", width: 90, highlight: false, sortable: false, align: "center" },
-  { field: "baños", weight: 1, label: "Baños", width: 70, highlight: false, sortable: false, align: "center" },
-  { field: "planta", weight: 1, label: "Planta", width: 70, highlight: false, sortable: false, align: "center" },
-  { field: "ascensor", weight: 1, label: "Ascensor", width: 80, highlight: false, sortable: false, align: "center" },
-  { field: "calefaccion", weight: 1, label: "Calefacción", width: 100, highlight: false, sortable: false, align: "center" },
-  { field: "fachada", weight: 1, label: "Fachada", width: 120, highlight: false, sortable: false, align: "center" },
-  { field: "garaje", weight: 1, label: "Garaje", width: 120, highlight: false, sortable: false, align: "center" },
-  { field: "terraza", weight: 1, label: "Terraza", width: 120, highlight: false, sortable: false, align: "center" },
-  { field: "trastero", weight: 0, label: "Trastero", width: 100, highlight: false, sortable: false, align: "center" },
-  { field: "ac", weight: 0, label: "Aire acond.", width: 120, highlight: false, sortable: false, align: "center" },
-  { field: "año", weight: 0, label: "Año de const.", width: 120, highlight: false, sortable: true, align: "center" },
-  { field: "estado", weight: 0, label: "Estado", width: 150, highlight: false, sortable: false, align: "center" },
-];
-
-const formFields = [
-  { name: "link", label: "Link", type: "string", maxLength: 255, mandatory: false, placeholder: "Añade el link al anuncio de tu vivienda", width: "full" },
-  { name: "precio", label: "Precio", type: "numeric", mandatory: true, placeholder: "Introduce el precio", width: "half" },
-  { name: "superficie", label: "Superficie", type: "numeric", mandatory: true, placeholder: "Introduce la superficie", width: "half" },
-  { name: "habitaciones", label: "Habitaciones", type: "numeric", mandatory: false, placeholder: "Número de habitaciones", width: "half" },
-  { name: "baños", label: "Baños", type: "numeric", mandatory: false, placeholder: "Número de baños", width: "half" },
-  { name: "planta", label: "Planta", type: "select", options: ["Semisótano", "Baja", "Intermedia", "Ático"], default_option: "Intermedia", mandatory: false, placeholder: "Introduce la planta", width: "half" },
-  { name: "ascensor", label: "Ascensor", type: "select", options: ["Sí", "No"], default_option: "Sí", mandatory: false, placeholder: "Seleccione una opción", width: "half" },
-  { name: "calefaccion", label: "Calefacción", type: "select", options: ["Sí", "No"], default_option: "Sí", mandatory: false, placeholder: "Seleccione calefacción", width: "half" },
-  { name: "fachada", label: "Fachada", type: "select", options: ["Exterior", "Interior"], default_option: "Exterior", mandatory: false, width: "half" },
-  { name: "terraza", label: "Terraza", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
-  { name: "garaje", label: "Garaje", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
-  { name: "trastero", label: "Trastero", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
-  { name: "ac", label: "Aire acond.", type: "select", options: ["Sí", "No"], default_option: "No", mandatory: false, width: "half" },
-  { name: "año", label: "Año de construcción", type: "numeric", mandatory: false, placeholder: "Año de construcción", width: "half" },
-  { name: "estado", label: "Estado", type: "select", options: ["Nueva/reformada", "Buen estado", "Necesita reforma", "Reforma integral"], default_option: "Buen estado", mandatory: false, width: "half" },
-];
-
-const initialRows = [
-  {
-    id: 1,
-    link: "https://www.example.com/property/1",
-    emoji: "",
-    kpi: 0,
-    precio: 250000,
-    superficie: 120,
-    eurom2: 2083,
-    habitaciones: 3,
-    baños: 2,
-    planta: "Intermedia",
-    ascensor: "Sí",
-    calefaccion: "Sí",
-    fachada: "Exterior",
-    garaje: "No",
-    terraza: "Sí",
-  },
-  {
-    id: 2,
-    link: "https://www.example.com/property/2",
-    emoji: "",
-    kpi: 0,
-    precio: 210000,
-    superficie: 90,
-    eurom2: 2333,
-    habitaciones: 2,
-    baños: 1,
-    planta: "Baja",
-    ascensor: "No",
-    calefaccion: "No",
-    fachada: "Interior",
-    garaje: "Sí",
-    terraza: "No",
-  },
-  {
-    id: 3,
-    link: "https://www.example.com/property/3",
-    emoji: "",
-    kpi: 0,
-    precio: 320000,
-    superficie: 150,
-    eurom2: 2133,
-    habitaciones: 3,
-    baños: 2,
-    planta: "Ático",
-    ascensor: "Sí",
-    calefaccion: "Sí",
-    fachada: "Exterior",
-    garaje: "Sí",
-    terraza: "Sí",
-  },
-];
-
-const API_URL = "https://o9qh2kvujg.execute-api.eu-west-3.amazonaws.com/generate-kpick";
+import { initialRows } from '../../config/initialRows';
+import { API_URL } from '../../config/api';
 
 function MainContent() {
+  const { tableColumns, formFields, features } = useAppConfig();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rows, setRows] = usePersistentState("viviendas", initialRows);
   const [loading, setLoading] = useState(false);
@@ -124,7 +32,7 @@ function MainContent() {
   const [isColumnsWeightOpen, setIsColumnsWeightOpen] = useState(false);
 
   // Nuevo estado para columns
-  const [columnsState, setColumnsState] = usePersistentState("columnsState", columns);
+  const [columnsState, setColumnsState] = usePersistentState("columnsState", tableColumns);
 
   // Estado para ordenación
   const [sortConfig, setSortConfig] = useState({ field: null, direction: null });
@@ -325,14 +233,12 @@ function MainContent() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddRow}
-        formFields={formFields}
       />
 
       <EditModalCard
         isOpen={editModalOpen}
         onClose={() => setEditModalOpen(false)}
         onSubmit={handleUpdateRow}
-        formFields={formFields}
         rowData={rowToEdit}
       />
     </main>

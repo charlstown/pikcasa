@@ -22,9 +22,13 @@ def lambda_handler(event, context):
 
         rows = data.get("rows", [])
         columns = data.get("columns", [])
+        logger.debug(f"Datos recibidos: {rows}, {columns}")
 
-        # Determina qué campos están activos
-        active_fields = set(col["field"] for col in columns if col.get("active", False))
+        # Determina qué campos están activos (ahora solo los que tienen weight > 0)
+        active_fields = set(col["field"] for col in columns if col.get("weight", 0) > 0)
+
+        # Crear mapa de pesos por campo
+        weight_map = {col["field"]: col.get("weight", 1) for col in columns}
 
         # Convertir campos numéricos para evitar errores
         for row in rows:
@@ -65,13 +69,19 @@ def lambda_handler(event, context):
         ]
 
         for row in rows:
-            # Solo incluye factores cuyo campo esté activo
-            factors = [
-                func(row)
-                for field, func in factor_definitions
-                if field in active_fields
-            ]
-            kpi = sum(factors) / len(factors) * 100 if factors else 0
+            weighted_factors = []
+            total_weight = 0
+            for field, func in factor_definitions:
+                if field in active_fields:
+                    weight = weight_map.get(field, 1)
+                    if weight > 0:
+                        factor_value = func(row)
+                        weighted_factors.append(factor_value * weight)
+                        total_weight += weight
+            if total_weight > 0:
+                kpi = sum(weighted_factors) / total_weight * 100
+            else:
+                kpi = 0
             row["kpi"] = int(kpi)
             logger.info(row)
 
