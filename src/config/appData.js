@@ -13,6 +13,21 @@ export const appData = [
     ascending: true
   },
   {
+    field: "emoji",
+    isKpick: false,
+    weight: 1,
+    label: "❤️",
+    dataType: "numeric",
+    ascending: true
+  },
+  {
+    field: "kpi",
+    isKpick: false,
+    weight: 1,
+    label: "K-Pick",
+    dataType: "numeric",
+  },
+  {
     field: "precio",
     isKpick: true,
     weight: 1,

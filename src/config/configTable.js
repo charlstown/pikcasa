@@ -147,4 +147,4 @@ function mergeWithappData(col) {
   return col;
 }
 
-export const tableColumns = baseTableColumns.map(mergeWithappData);
+export const configTable = baseTableColumns.map(mergeWithappData);

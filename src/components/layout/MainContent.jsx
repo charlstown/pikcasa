@@ -19,7 +19,7 @@ import { initialRows } from '../../config/initialRows';
 import { API_URL } from '../../config/api';
 
 function MainContent() {
-  const { tableColumns, configForm, features } = useAppConfig();
+  const { configTable, configForm, appData } = useAppConfig();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rows, setRows] = usePersistentState("viviendas", initialRows);
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ function MainContent() {
   const [isColumnsWeightOpen, setIsColumnsWeightOpen] = useState(false);
 
   // Nuevo estado para columns
-  const [columnsState, setColumnsState] = usePersistentState("columnsState", tableColumns);
+  const [columnsState, setColumnsState] = usePersistentState("columnsState", appData);
 
   // Estado para ordenación
   const [sortConfig, setSortConfig] = useState({ field: null, direction: null });
@@ -133,17 +133,13 @@ function MainContent() {
   // Nueva función para generar K-Pick y ordenar por kpi descendente
   const handleGenerateKPick = async () => {
     setLoading(true);
-    const columnsPayload = columnsState.map(col => ({
-      field: col.field,
-      weight: col.weight,
-    }));
 
     const fetchPromise = fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         rows,
-        columns: columnsPayload,
+        columns: columnsState,
       }),
     }).then(response => {
       if (!response.ok) throw new Error("Error en la respuesta del servidor");
