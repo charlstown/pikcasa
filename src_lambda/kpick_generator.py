@@ -11,6 +11,8 @@ def safe_float(value, default=0.0):
     except (ValueError, TypeError):
         return default
 
+
+
 def lambda_handler(event, context):
     logger.info("Lambda iniciada")
     try:
@@ -22,7 +24,15 @@ def lambda_handler(event, context):
 
         rows = data.get("rows", [])
         columns = data.get("columns", [])
-        logger.debug(f"Datos recibidos: {rows}, {columns}")
+        logger.info(f"Datos recibidos: {rows}, {columns}")
+
+        # Filtrar solo las columnas que tienen isKpick en true y weight > 0
+        kpick_columns = [col for col in columns if col.get("isKpick", False) and col.get("weight", 0) > 0]
+        print(f"Columnas Kpick: {kpick_columns}", "\n")
+
+        kpick_rows = [row for row in rows if any(row.get(col["field"]) for col in kpick_columns)]
+        print(f"Filas Kpick: {kpick_rows}")
+        quit()
 
         # Determina qué campos están activos (ahora solo los que tienen weight > 0)
         active_fields = set(col["field"] for col in columns if col.get("weight", 0) > 0)

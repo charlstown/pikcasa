@@ -208,7 +208,7 @@ function MainContent() {
       />
 
       <DataTable
-        columns={columnsState.filter(col => col.weight !== 0 && col.visible !== false)}
+        columns={columnsState}
         rows={getSortedRows()}
         onRowDelete={handleDeleteRow}
         onEditRow={handleEditRow}

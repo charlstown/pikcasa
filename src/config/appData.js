@@ -3,6 +3,7 @@ export const appData = [
   {
     field: "id",
     isKpick: false,
+    weight: 0,
   },
   {
     field: "link",
