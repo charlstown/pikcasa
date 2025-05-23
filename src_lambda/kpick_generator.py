@@ -11,6 +11,21 @@ def safe_float(value, default=0.0):
     except (ValueError, TypeError):
         return default
 
+def filter_is_kpick(columns: list, rows:list):
+    """
+    Filtra las columnas que tienen isKpick en true y weight > 0
+    """
+    # Filtralos campos que tienen isKpick en true y weight > 0
+    kpick_columns = [col for col in columns if col.get("isKpick", True) and col.get("weight", 0) > 0]
+
+    # Filtrar los campos de las filas que tienen isKpick en true y weight > 0
+    kpick_fields = set(col["field"] for col in kpick_columns)
+    kpick_rows = [
+        {k: v for k, v in row.items() if k in kpick_fields}
+        for row in rows
+    ]
+    return kpick_fields, kpick_rows
+
 
 
 def lambda_handler(event, context):
@@ -26,16 +41,12 @@ def lambda_handler(event, context):
         columns = data.get("columns", [])
         logger.info(f"Datos recibidos: {rows}, {columns}")
 
-        # Filtrar solo las columnas que tienen isKpick en true y weight > 0
-        kpick_columns = [col for col in columns if col.get("isKpick", False) and col.get("weight", 0) > 0]
-        print(f"Columnas Kpick: {kpick_columns}", "\n")
+        kpick_fields, kpick_rows = filter_is_kpick(columns=columns, rows=rows)
 
-        kpick_rows = [row for row in rows if any(row.get(col["field"]) for col in kpick_columns)]
-        print(f"Filas Kpick: {kpick_rows}")
+        for row in kpick_rows:
+            print(row, "\n")
         quit()
 
-        # Determina qué campos están activos (ahora solo los que tienen weight > 0)
-        active_fields = set(col["field"] for col in columns if col.get("weight", 0) > 0)
 
         # Crear mapa de pesos por campo
         weight_map = {col["field"]: col.get("weight", 1) for col in columns}
