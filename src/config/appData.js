@@ -11,7 +11,7 @@ export const appData = [
     weight: 1,
     label: "Link",
     dataType: "numeric",
-    ascending: true
+    ascending: false
   },
   {
     field: "emoji",
@@ -19,7 +19,7 @@ export const appData = [
     weight: 1,
     label: "❤️",
     dataType: "numeric",
-    ascending: true
+    ascending: false
   },
   {
     field: "kpi",
@@ -30,11 +30,11 @@ export const appData = [
   },
   {
     field: "precio",
-    isKpick: true,
+    isKpick: false,
     weight: 1,
     label: "Precio",
     dataType: "numeric",
-    ascending: true
+    ascending: false
   },
   {
     field: "superficie",
@@ -42,17 +42,14 @@ export const appData = [
     weight: 1,
     label: "Superficie",
     dataType: "numeric",
-    ascending: true
+    ascending: false
   },
   {
     field: "eurom2",
     isKpick: true,
     weight: 1,
     label: "€/m²",
-    width: 90,
-    highlight: false,
-    sortable: true,
-    align: "center"
+    dataType: "numeric"
   },
   {
     field: "habitaciones",
@@ -60,7 +57,7 @@ export const appData = [
     weight: 1,
     label: "Habitaciones",
     dataType: "numeric",
-    ascending: true
+    ascending: false
   },
   {
     field: "baños",
@@ -68,7 +65,7 @@ export const appData = [
     weight: 1,
     label: "Baños",
     dataType: "numeric",
-    ascending: true
+    ascending: false
   },
   {
     field: "planta",
@@ -77,7 +74,7 @@ export const appData = [
     label: "Planta",
     dataType: "category",
     options: ["Ático", "Intermedia", "Baja", "Semisótano"],
-    ascending: true
+    ascending: false
   },
   {
     field: "ascensor",
@@ -86,7 +83,7 @@ export const appData = [
     label: "Ascensor",
     dataType: "category",
     options: ["Sí", "No"],
-    ascending: true
+    ascending: false
   },
   {
     field: "calefaccion",
@@ -95,7 +92,7 @@ export const appData = [
     label: "Calefacción",
     dataType: "category",
     options: ["Sí", "No"],
-    ascending: true
+    ascending: false
   },
   {
     field: "fachada",
@@ -104,7 +101,7 @@ export const appData = [
     label: "Fachada",
     dataType: "category",
     options: ["Exterior", "Interior"],
-    ascending: true
+    ascending: false
   },
   {
     field: "terraza",
@@ -113,7 +110,7 @@ export const appData = [
     label: "Terraza",
     dataType: "category",
     options: ["Sí", "No"],
-    ascending: true
+    ascending: false
   },
   {
     field: "garaje",
@@ -122,7 +119,7 @@ export const appData = [
     label: "Garaje",
     dataType: "category",
     options: ["Sí", "No"],
-    ascending: true
+    ascending: false
   },
   {
     field: "trastero",
@@ -131,7 +128,7 @@ export const appData = [
     label: "Trastero",
     dataType: "category",
     options: ["Sí", "No"],
-    ascending: true
+    ascending: false
   },
   {
     field: "ac",
@@ -140,7 +137,7 @@ export const appData = [
     label: "Aire acond.",
     dataType: "category",
     options: ["Sí", "No"],
-    ascending: true
+    ascending: false
   },
   {
     field: "año",
@@ -149,7 +146,7 @@ export const appData = [
     label: "Año de construcción",
     dataType: "numeric",
     options: [],
-    ascending: true
+    ascending: false
   },
   {
     field: "estado",
@@ -158,6 +155,6 @@ export const appData = [
     label: "Estado",
     dataType: "category",
     options: ["Nueva/Reformada", "Buen estado", "Necesita reforma", "Reforma integral"],
-    ascending: true
+    ascending: false
   }
 ];

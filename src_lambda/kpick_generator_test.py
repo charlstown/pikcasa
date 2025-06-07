@@ -69,7 +69,7 @@ test_event = {
             "weight": 1,
             "label": "Link",
             "dataType": "numeric",
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "emoji",
@@ -77,7 +77,7 @@ test_event = {
             "weight": 1,
             "label": "❤️",
             "dataType": "numeric",
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "kpi",
@@ -91,42 +91,35 @@ test_event = {
             "isKpick": True,
             "weight": 1,
             "label": "Precio",
-            "dataType": "numeric",
-            "ascending": True
-        },
+            "dataType": "numeric"        },
         {
             "field": "superficie",
             "isKpick": True,
             "weight": 1,
             "label": "Superficie",
             "dataType": "numeric",
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "eurom2",
             "isKpick": True,
             "weight": 1,
             "label": "€/m²",
-            "width": 90,
-            "highlight": False,
-            "sortable": True,
-            "align": "center"
+            "dataType": "numeric"
         },
         {
             "field": "habitaciones",
             "isKpick": True,
             "weight": 0.25,
             "label": "Habitaciones",
-            "dataType": "numeric",
-            "ascending": True
+            "dataType": "numeric"
         },
         {
             "field": "baños",
             "isKpick": True,
             "weight": 0.75,
             "label": "Baños",
-            "dataType": "numeric",
-            "ascending": True
+            "dataType": "numeric"
         },
         {
             "field": "planta",
@@ -140,7 +133,7 @@ test_event = {
                 "Baja",
                 "Semisótano"
             ],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "ascensor",
@@ -152,7 +145,7 @@ test_event = {
                 "Sí",
                 "No"
             ],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "calefaccion",
@@ -164,7 +157,7 @@ test_event = {
                 "Sí",
                 "No"
             ],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "fachada",
@@ -176,7 +169,7 @@ test_event = {
                 "Exterior",
                 "Interior"
             ],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "terraza",
@@ -188,7 +181,7 @@ test_event = {
                 "Sí",
                 "No"
             ],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "garaje",
@@ -200,7 +193,7 @@ test_event = {
                 "Sí",
                 "No"
             ],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "trastero",
@@ -212,7 +205,7 @@ test_event = {
                 "Sí",
                 "No"
             ],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "ac",
@@ -224,7 +217,7 @@ test_event = {
                 "Sí",
                 "No"
             ],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "año",
@@ -233,7 +226,7 @@ test_event = {
             "label": "Año de construcción",
             "dataType": "numeric",
             "options": [],
-            "ascending": True
+            "ascending": False
         },
         {
             "field": "estado",
@@ -247,7 +240,7 @@ test_event = {
                 "Necesita reforma",
                 "Reforma integral"
             ],
-            "ascending": True
+            "ascending": False
         }
     ]
 })
