@@ -5,6 +5,8 @@ const SquareButton = ({
   children,
   helperLabel,
   colorType = "white", // "accent" o "white"
+  iconColor,
+  hoverColor,
   ...props
 }) => {
   const [showHelper, setShowHelper] = useState(false);
@@ -17,18 +19,18 @@ const SquareButton = ({
 
   // Definición de estilos según colorType y hover
   let buttonBgClass = "";
-  let iconColor = "";
+  let iconColorClass = iconColor || "";
   if (colorType === "accent") {
     buttonBgClass = hover ? "bg-teal-300" : "bg-teal-400";
-    iconColor = "text-white";
+    iconColorClass = iconColor || "text-white";
   } else { // white
     buttonBgClass = hover ? "bg-white" : "bg-white";
-    iconColor = hover ? "text-teal-300" : "text-teal-400";
+    iconColorClass = iconColor || (hover ? "text-teal-300" : "text-teal-400");
   }
 
   // Si el hijo es un icono, pásale la clase de color
   const childWithColor = React.isValidElement(children)
-    ? React.cloneElement(children, { className: `w-6 h-6 ${iconColor}` })
+    ? React.cloneElement(children, { className: `w-6 h-6 ${iconColorClass}` })
     : children;
 
   return (
@@ -38,7 +40,7 @@ const SquareButton = ({
         onMouseEnter={helperLabel ? handleMouseEnter : undefined}
         onMouseLeave={helperLabel ? handleMouseLeave : undefined}
         onMouseMove={helperLabel ? handleMouseMove : undefined}
-        className={`rounded-md ${buttonBgClass} p-2 shadow transition ${props.className || ""}`}
+        className={`rounded-md ${buttonBgClass} p-2 shadow transition ${hoverColor || ""} ${props.className || ""}`}
       >
         {childWithColor}
       </button>

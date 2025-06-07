@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import FormField from "./FormField";
 
-function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
+function Form({ configForm, onSubmit, title, submitLabel, initialValues }) {
   const getInitialState = () =>
-    formFields.reduce(
+    configForm.reduce(
       (acc, field) => ({
         ...acc,
-        [field.name]:
-          (initialValues && initialValues[field.name] !== undefined)
-            ? initialValues[field.name]
+        [field.field]:
+          (initialValues && initialValues[field.field] !== undefined)
+            ? initialValues[field.field]
             : field.default_option || "",
       }),
       {}
@@ -20,7 +20,7 @@ function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
   // Si initialValues cambia (por ejemplo, al editar otra fila), actualiza el estado
   useEffect(() => {
     setFormData(getInitialState());
-  }, [initialValues, formFields]);
+  }, [initialValues, configForm]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,14 +30,14 @@ function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
 
   const validate = () => {
     const newErrors = {};
-    formFields.forEach((field) => {
-      const value = formData[field.name];
+    configForm.forEach((field) => {
+      const value = formData[field.field];
       if (field.mandatory && !value) {
-        newErrors[field.name] = `${field.label} es obligatorio.`;
+        newErrors[field.field] = `${field.label} es obligatorio.`;
       } else if (field.type === "numeric" && isNaN(value)) {
-        newErrors[field.name] = `${field.label} debe ser un número.`;
+        newErrors[field.field] = `${field.label} debe ser un número.`;
       } else if (field.type === "string" && field.maxLength && value.length > field.maxLength) {
-        newErrors[field.name] = `${field.label} no puede tener más de ${field.maxLength} caracteres.`;
+        newErrors[field.field] = `${field.label} no puede tener más de ${field.maxLength} caracteres.`;
       }
     });
     return newErrors;
@@ -58,13 +58,13 @@ function Form({ formFields, onSubmit, title, submitLabel, initialValues }) {
     <form onSubmit={handleSubmit} className="space-y-4">
       {title && <h2 className="text-xl font-bold mb-4 text-slate-500">{title}</h2>}
       <div className="flex flex-wrap -mx-2">
-        {formFields.map((field) => (
+        {configForm.map((field) => (
           <FormField
-            key={field.name}
+            key={field.field}
             field={field}
-            value={formData[field.name]}
+            value={formData[field.field]}
             onChange={handleChange}
-            error={errors[field.name]}
+            error={errors[field.field]}
           />
         ))}
       </div>
