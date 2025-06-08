@@ -141,7 +141,7 @@ export const appData = [
     field: "año",
     isKpick: true,
     weight: 0,
-    label: "Año de construcción",
+    label: "Construcción",
     dataType: "numeric",
     ascending: true
   },

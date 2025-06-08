@@ -61,6 +61,10 @@ def get_kpick(kpick_columns: dict, normalized_rows: list) -> dict:
             val = row.get(col)
             if val is None:
                 continue
+            try:
+                val = float(val)
+            except (TypeError, ValueError):
+                continue
             weighted_sum += val * weight
             weight_sum += weight
         kpi_normalized = weighted_sum / weight_sum if weight_sum > 0 else 0.0
