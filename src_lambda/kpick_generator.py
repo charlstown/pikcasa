@@ -82,6 +82,8 @@ def normalization(kpickColumns: dict, kpickRows: list) -> list:
     for field, col in kpickColumns.items():
         data_type = col.get("dataType")
         ascending = col.get("ascending", True)
+        if ascending is None:
+            ascending = True
         if data_type == "category" and "options" in col:
             options = col["options"]
             n = len(options)
@@ -110,6 +112,8 @@ def normalization(kpickColumns: dict, kpickRows: list) -> list:
                     new_row[field] = value_map.get(new_row[field], 0.0)
                 elif info[0] == "numeric":
                     min_val, max_val, ascending = info[1], info[2], info[3]
+                    if ascending is None:
+                        ascending = True
                     val = new_row[field]
                     if max_val > min_val:
                         norm = (val - min_val) / (max_val - min_val)
