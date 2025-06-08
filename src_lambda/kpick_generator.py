@@ -5,13 +5,13 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-def safe_float(value, default=0.0):
+def safe_float(value, default=0.0) -> float:
     try:
         return float(value)
     except (ValueError, TypeError):
         return default
 
-def filter_is_kpick(columns: list, rows:list):
+def filter_is_kpick(columns: list, rows: list) -> tuple[dict, list]:
     """
     Filtra las columnas que tienen isKpick en true y weight > 0
     """
@@ -29,13 +29,10 @@ def filter_is_kpick(columns: list, rows:list):
     ]
     return kpick_columns, kpick_rows
 
-def get_boundaries(rows, columns):
-    pass
-
-def format_input(rows, columns):
+def format_input(rows: list, columns: dict) -> list:
     """
-    Formatea los campos numéricos de las filasy convierte todas las variables a numericas.
-    Convierte a float si dataType=numeric, boolean si dataType=boolean y int si dataType=category.
+    Formatea los campos numéricos de las filas y convierte todas las variables a numericas.
+    Convierte a float si dataType=numeric, y int si dataType=category.
     """
     for row in rows:
         for k, v in row.items():
@@ -48,46 +45,27 @@ def format_input(rows, columns):
                         row[k] = 0.0  # o None según convenga
     return rows
 
-def get_kpick(kpick_columns, numeric_rows):
+def get_kpick(kpick_columns: dict, normalized_rows: list) -> dict:
     """
-    Calcula el KPI compuesto normalizado y ponderado para cada fila.
+    Calcula el KPI ponderado para cada fila usando los valores ya normalizados (entre 0 y 1).
     Devuelve un diccionario {id: kpi} donde el kpi es un entero entre 0 y 100.
     """
-    # Precalcular min, max y pesos de columnas válidas
-    col_stats = {}
-    for col, props in kpick_columns.items():
-        weight = props.get("weight", 0)
-        if weight == 0:
-            continue
-        values = [row[col] for row in numeric_rows if col in row and isinstance(row[col], (int, float))]
-        if not values:
-            continue
-        min_val = min(values)
-        max_val = max(values)
-        col_stats[col] = {
-            "min": min_val,
-            "max": max_val,
-            "weight": weight
-        }
-
     kpi_dict = {}
-    # Calcular KPI para cada fila
-    for row in numeric_rows:
+    for row in normalized_rows:
         weighted_sum = 0.0
         weight_sum = 0.0
-        for col, stats in col_stats.items():
+        for col, props in kpick_columns.items():
+            weight = props.get("weight", 0)
+            if weight == 0:
+                continue
             val = row.get(col)
             if val is None:
                 continue
-            min_val = stats["min"]
-            max_val = stats["max"]
-            weight = stats["weight"]
-            # Normalización min-max
-            if max_val > min_val:
-                norm = (val - min_val) / (max_val - min_val)
-            else:
-                norm = 0.0  # Si todos los valores son iguales
-            weighted_sum += norm * weight
+            try:
+                val = float(val)
+            except (TypeError, ValueError):
+                continue
+            weighted_sum += val * weight
             weight_sum += weight
         kpi_normalized = weighted_sum / weight_sum if weight_sum > 0 else 0.0
         kpi_int = int(round(kpi_normalized * 100))
@@ -96,7 +74,62 @@ def get_kpick(kpick_columns, numeric_rows):
             kpi_dict[row_id] = kpi_int
     return kpi_dict
 
-def category_to_numeric(kpickColumns, kpickRows):
+def normalization(kpickColumns: dict, kpickRows: list) -> list:
+    """
+    Normaliza todos los campos de las filas entre 0 y 1 según su tipo y el campo ascending.
+    - Para 'category': distribuye los valores entre 0 y 1 según el orden de la lista de opciones y ascending.
+    - Para 'numeric': normaliza min-max entre 0 y 1, considerando ascending (si False, invierte la escala).
+    Devuelve una nueva lista de filas con los valores normalizados.
+    """
+    # Preparar normalización para cada campo
+    normalization_info = {}
+    for field, col in kpickColumns.items():
+        data_type = col.get("dataType")
+        ascending = col.get("ascending", True)
+        if ascending is None:
+            ascending = True
+        if data_type == "category" and "options" in col:
+            options = col["options"]
+            n = len(options)
+            if n > 1:
+                if ascending:
+                    value_map = {opt: i / (n - 1) for i, opt in enumerate(options)}
+                else:
+                    value_map = {opt: 1 - (i / (n - 1)) for i, opt in enumerate(options)}
+            else:
+                value_map = {opt: 0.0 for opt in options}
+            normalization_info[field] = ("category", value_map)
+        elif data_type == "numeric":
+            values = [row[field] for row in kpickRows if field in row and isinstance(row[field], (int, float))]
+            if values:
+                min_val = min(values)
+                max_val = max(values)
+                normalization_info[field] = ("numeric", min_val, max_val, ascending)
+    # Normalizar filas
+    normalized_rows = []
+    for row in kpickRows:
+        new_row = row.copy()
+        for field, info in normalization_info.items():
+            if field in new_row:
+                if info[0] == "category":
+                    value_map = info[1]
+                    new_row[field] = value_map.get(new_row[field], 0.0)
+                elif info[0] == "numeric":
+                    min_val, max_val, ascending = info[1], info[2], info[3]
+                    if ascending is None:
+                        ascending = True
+                    val = new_row[field]
+                    if max_val > min_val:
+                        norm = (val - min_val) / (max_val - min_val)
+                    else:
+                        norm = 0.0
+                    if not ascending:
+                        norm = 1.0 - norm
+                    new_row[field] = norm
+        normalized_rows.append(new_row)
+    return normalized_rows
+
+def category_to_numeric(kpickColumns: dict, kpickRows: list) -> list:
     """
     Convierte los valores categóricos de las filas a valores numéricos según las opciones y el orden.
     - kpickColumns: diccionario de columnas (field -> propiedades).
@@ -126,7 +159,7 @@ def category_to_numeric(kpickColumns, kpickRows):
 
     return transformed_rows
 
-def lambda_handler(event, context):
+def lambda_handler(event: dict, context) -> dict:
     logger.info("Lambda iniciada")
     try:
         if "body" in event:
@@ -146,10 +179,10 @@ def lambda_handler(event, context):
         kpick_rows = format_input(rows=kpick_rows, columns=kpick_columns)
 
         # Convierte los campos categóricos a valores numéricos
-        numeric_rows = category_to_numeric(kpick_columns, kpick_rows)
+        numeric_rows = normalization(kpick_columns, kpick_rows)
 
         # Añadir nueva función aqui
-        kpi_dict = get_kpick(kpick_columns=kpick_columns, numeric_rows=numeric_rows)
+        kpi_dict = get_kpick(kpick_columns=kpick_columns, normalized_rows=numeric_rows)
         # Asignar el KPI a cada fila de rows usando el id
         for row in rows:
             row_id = row.get("id")

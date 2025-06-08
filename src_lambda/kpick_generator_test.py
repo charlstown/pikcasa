@@ -69,7 +69,6 @@ test_event = {
             "weight": 1,
             "label": "Link",
             "dataType": "numeric",
-            "ascending": False
         },
         {
             "field": "emoji",
@@ -77,7 +76,6 @@ test_event = {
             "weight": 1,
             "label": "❤️",
             "dataType": "numeric",
-            "ascending": False
         },
         {
             "field": "kpi",
@@ -88,7 +86,7 @@ test_event = {
         },
         {
             "field": "precio",
-            "isKpick": True,
+            "isKpick": False,
             "weight": 1,
             "label": "Precio",
             "dataType": "numeric"        },

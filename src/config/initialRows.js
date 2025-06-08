@@ -18,6 +18,10 @@ export const initialRows = [
     fachada: "Exterior",
     garaje: "No",
     terraza: "Sí",
+    trastero: "No",
+    ac: "Sí",
+    año: 2005,
+    estado: "Buen estado"
   },
   {
     id: 2,
@@ -35,6 +39,10 @@ export const initialRows = [
     fachada: "Interior",
     garaje: "Sí",
     terraza: "No",
+    trastero: "Sí",
+    ac: "No",
+    año: 1998,
+    estado: "Necesita reforma"
   },
   {
     id: 3,
@@ -52,5 +60,9 @@ export const initialRows = [
     fachada: "Exterior",
     garaje: "Sí",
     terraza: "Sí",
+    trastero: "No",
+    ac: "Sí",
+    año: 2015,
+    estado: "Nueva/Reformada"
   },
 ];

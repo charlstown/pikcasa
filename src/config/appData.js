@@ -10,16 +10,14 @@ export const appData = [
     isKpick: false,
     weight: 1,
     label: "Link",
-    dataType: "numeric",
-    ascending: false
+    dataType: "numeric"
   },
   {
     field: "emoji",
     isKpick: false,
     weight: 1,
     label: "❤️",
-    dataType: "numeric",
-    ascending: false
+    dataType: "numeric"
   },
   {
     field: "kpi",
@@ -33,8 +31,7 @@ export const appData = [
     isKpick: false,
     weight: 1,
     label: "Precio",
-    dataType: "numeric",
-    ascending: false
+    dataType: "numeric"
   },
   {
     field: "superficie",
@@ -42,14 +39,15 @@ export const appData = [
     weight: 1,
     label: "Superficie",
     dataType: "numeric",
-    ascending: false
+    ascending: true
   },
   {
     field: "eurom2",
     isKpick: true,
     weight: 1,
     label: "€/m²",
-    dataType: "numeric"
+    dataType: "numeric",
+    ascending: false
   },
   {
     field: "habitaciones",
@@ -57,7 +55,7 @@ export const appData = [
     weight: 1,
     label: "Habitaciones",
     dataType: "numeric",
-    ascending: false
+    ascending: true
   },
   {
     field: "baños",
@@ -65,7 +63,7 @@ export const appData = [
     weight: 1,
     label: "Baños",
     dataType: "numeric",
-    ascending: false
+    ascending: true
   },
   {
     field: "planta",
@@ -143,10 +141,9 @@ export const appData = [
     field: "año",
     isKpick: true,
     weight: 0,
-    label: "Año de construcción",
+    label: "Construcción",
     dataType: "numeric",
-    options: [],
-    ascending: false
+    ascending: true
   },
   {
     field: "estado",
