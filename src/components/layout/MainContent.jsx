@@ -34,6 +34,11 @@ function MainContent() {
   // Nuevo estado para columns
   const [columnsState, setColumnsState] = usePersistentState("columnsState", appData);
 
+  // Estado para saber si hay cambios pendientes
+  const [isModified, setIsModified] = useState(true);
+  // Estado para guardar el snapshot de los datos tras la última llamada exitosa
+  const [lastKpiSnapshot, setLastKpiSnapshot] = useState("");
+
   // Estado para ordenación
   const [sortConfig, setSortConfig] = useState({ field: null, direction: null });
 
@@ -130,8 +135,19 @@ function MainContent() {
     setRowToEdit(null);
   };
 
+  // Marcar como modificado solo si los datos actuales difieren del último snapshot
+  React.useEffect(() => {
+    const currentSnapshot = JSON.stringify({ rows, columnsState });
+    if (currentSnapshot !== lastKpiSnapshot) {
+      setIsModified(true);
+    } else {
+      setIsModified(false);
+    }
+  }, [rows, columnsState, lastKpiSnapshot]);
+
   // Nueva función para generar K-Pick y ordenar por kpi descendente
   const handleGenerateKPick = async () => {
+    if (!isModified) return; // Bloquea si no hay cambios
     setLoading(true);
 
     const fetchPromise = fetch(API_URL, {
@@ -166,6 +182,8 @@ function MainContent() {
       if (data.rows) {
         setRows(data.rows);
         setSortConfig({ field: "kpi", direction: "desc" }); // Ordena por K-Pick descendente
+        setLastKpiSnapshot(JSON.stringify({ rows: data.rows, columnsState }));
+        setIsModified(false); // Ya no hay cambios pendientes
       }
     } catch (err) {
       alert("Error generando K-Pick: " + err.message);
@@ -182,7 +200,7 @@ function MainContent() {
         <SquareButton
           onClick={() => setIsModalOpen(true)}
           className="flex items-center"
-          helperLabel="Añade una nueva vivienda a la tabla"
+          helperLabel="Añadir una nueva vivienda"
           iconColor='text-white'
           colorType='accent'
           hoverColor='bg-teal-300'
@@ -193,7 +211,7 @@ function MainContent() {
         <SquareButton
           onClick={() => setIsColumnsWeightOpen(true)}
           className="ml-1"
-          helperLabel="Ajusta los pesos de las columnas"
+          helperLabel="Ajustar los pesos de las columnas"
         >
           <IconEnableColumns />
         </SquareButton>
@@ -220,7 +238,7 @@ function MainContent() {
         <PrimaryButton
           className="flex items-center"
           onClick={handleGenerateKPick}
-          helperLabel="Genera el K-Pick y ordena tus viviendas"
+          helperLabel="Generar K-Pick"
           >
           {loading ? "Generando..." : "Generar K-Pick"}
         </PrimaryButton>
