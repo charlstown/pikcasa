@@ -10,14 +10,21 @@ export const appData = [
     isKpick: false,
     weight: 1,
     label: "Link",
-    dataType: "numeric"
+    dataType: "string"
   },
   {
     field: "emoji",
     isKpick: false,
     weight: 1,
     label: "❤️",
-    dataType: "numeric"
+    dataType: "string"
+  },
+  {
+    field: "nombre",
+    isKpick: false,
+    weight: 1,
+    label: "Nombre",
+    dataType: "string"
   },
   {
     field: "kpi",
@@ -104,7 +111,7 @@ export const appData = [
   {
     field: "terraza",
     isKpick: true,
-    weight: 1,
+    weight: 0,
     label: "Terraza",
     dataType: "category",
     options: ["Sí", "No"],
@@ -113,7 +120,7 @@ export const appData = [
   {
     field: "garaje",
     isKpick: true,
-    weight: 1,
+    weight: 0,
     label: "Garaje",
     dataType: "category",
     options: ["Sí", "No"],

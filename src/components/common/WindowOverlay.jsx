@@ -1,24 +1,40 @@
-import React from "react";
+import React, { useRef } from "react";
 import IconCross from "../../assets/IconCross";
 
 function WindowOverlay({ isOpen, onClose, children, className = "", ...props }) {
   if (!isOpen) return null;
 
-  // Cierra al hacer click fuera del contenido
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
+  const overlayRef = useRef(null);
+  const mouseDownOutside = useRef(false);
+
+  // Marca si el mousedown fue fuera del modal
+  const handleOverlayMouseDown = (e) => {
+    if (e.target === overlayRef.current) {
+      mouseDownOutside.current = true;
+    } else {
+      mouseDownOutside.current = false;
+    }
+  };
+
+  // Solo cierra si el mousedown y mouseup fueron fuera
+  const handleOverlayMouseUp = (e) => {
+    if (e.target === overlayRef.current && mouseDownOutside.current) {
       onClose && onClose();
     }
+    mouseDownOutside.current = false;
   };
 
   return (
     <div
+      ref={overlayRef}
       className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50"
-      onClick={handleOverlayClick}
+      onMouseDown={handleOverlayMouseDown}
+      onMouseUp={handleOverlayMouseUp}
     >
       <div
         className={`relative bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-[30rem] max-h-screen overflow-y-auto ${className}`}
-        onClick={e => e.stopPropagation()}
+        onMouseDown={e => e.stopPropagation()}
+        onMouseUp={e => e.stopPropagation()}
         {...props}
       >
         {/* Aspa de cierre en la esquina superior derecha */}
