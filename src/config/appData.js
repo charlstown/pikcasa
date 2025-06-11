@@ -89,7 +89,7 @@ export const appData = [
     weight: 1,
     label: "Calefacción",
     dataType: "category",
-    options: ["Sí", "No"],
+    options: ["Caldera central", "Caldera gas", "Eléctrica", "No"],
     ascending: false
   },
   {

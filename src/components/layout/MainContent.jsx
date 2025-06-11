@@ -36,6 +36,7 @@ function MainContent() {
 
   // Estado para saber si hay cambios pendientes
   const [isModified, setIsModified] = useState(true);
+  
   // Estado para guardar el snapshot de los datos tras la última llamada exitosa
   const [lastKpiSnapshot, setLastKpiSnapshot] = useState("");
 
@@ -192,6 +193,15 @@ function MainContent() {
     }
   };
 
+  // --- NUEVO: Filtrar campos visibles para el formulario ---
+  const visibleFormFields = React.useMemo(() => {
+    const columnsArr = Array.isArray(columnsState) ? columnsState : Object.values(columnsState);
+    return configForm.filter(fieldConfig => {
+      const col = columnsArr.find(c => c.field === fieldConfig.field);
+      return col && Number(col.weight) > 0;
+    });
+  }, [configForm, columnsState]);
+
   return (
     <main className="bg-teal-50 flex-1 flex flex-col items-center justify-start p-2">
       <CallToAction />
@@ -200,7 +210,7 @@ function MainContent() {
         <SquareButton
           onClick={() => setIsModalOpen(true)}
           className="flex items-center"
-          helperLabel="Añadir una nueva vivienda"
+          helperLabel="Añadir nueva vivienda"
           iconColor='text-white'
           colorType='accent'
           hoverColor='bg-teal-300'
@@ -211,7 +221,7 @@ function MainContent() {
         <SquareButton
           onClick={() => setIsColumnsWeightOpen(true)}
           className="ml-1"
-          helperLabel="Ajustar los pesos de las columnas"
+          helperLabel="Ajustar pesos y filtrar campos"
         >
           <IconEnableColumns />
         </SquareButton>
@@ -247,6 +257,7 @@ function MainContent() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddRow}
+        formFields={visibleFormFields}
       />
 
       <EditModalCard
@@ -254,6 +265,7 @@ function MainContent() {
         onClose={() => setEditModalOpen(false)}
         onSubmit={handleUpdateRow}
         rowData={rowToEdit}
+        formFields={visibleFormFields}
       />
     </main>
   );

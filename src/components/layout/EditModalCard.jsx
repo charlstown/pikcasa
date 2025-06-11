@@ -1,10 +1,8 @@
 import React from "react";
 import WindowOverlay from "../common/WindowOverlay";
 import Form from "../form/Form";
-import { useAppConfig } from '../../config/AppConfigContext';
 
-function EditModalCard({ isOpen, onClose, onSubmit, rowData }) {
-  const { configForm } = useAppConfig();
+function EditModalCard({ isOpen, onClose, onSubmit, rowData, formFields }) {
   if (!isOpen) return null;
 
   const handleFormSubmit = (formData) => {
@@ -14,7 +12,7 @@ function EditModalCard({ isOpen, onClose, onSubmit, rowData }) {
   return (
     <WindowOverlay isOpen={isOpen} onClose={onClose}>
       <Form
-        configForm={configForm}
+        configForm={formFields}
         onSubmit={handleFormSubmit}
         title="Editar Vivienda"
         submitLabel="Guardar cambios"
