@@ -11,6 +11,14 @@ const baseFormFields = [
     width: "full"
   },
   {
+    field: "nombre",
+    type: "string",
+    maxLength: 20,
+    mandatory: false,
+    placeholder: "Añade un nombre para distinguir tu vivienda",
+    width: "full"
+  },
+  {
     field: "precio",
     type: "numeric",
     mandatory: true,
@@ -57,7 +65,7 @@ const baseFormFields = [
   {
     field: "calefaccion",
     type: "select",
-    default_option: "Sí",
+    default_option: "Caldera gas",
     mandatory: false,
     placeholder: "Seleccione calefacción",
     width: "half"

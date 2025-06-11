@@ -17,6 +17,11 @@ const baseTableColumns = [
     sortable: false
   },
   {
+    field: "nombre",
+    highlight: false,
+    sortable: false
+  },
+  {
     field: "kpi",
     highlight: true,
     sortable: true
@@ -98,15 +103,4 @@ const baseTableColumns = [
   }
 ];
 
-function mergeWithappData(col) {
-  const feature = appData.find(f => f.field === col.field);
-  if (feature) {
-    return {
-      ...col,
-      label: feature.label
-    };
-  }
-  return col;
-}
-
-export const configTable = baseTableColumns.map(mergeWithappData);
+export const configTable = baseTableColumns;
