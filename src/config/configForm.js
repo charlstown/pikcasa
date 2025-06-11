@@ -27,14 +27,14 @@ const baseFormFields = [
   {
     field: "habitaciones",
     type: "numeric",
-    mandatory: false,
+    mandatory: true,
     placeholder: "Número de habitaciones",
     width: "half"
   },
   {
     field: "baños",
     type: "numeric",
-    mandatory: false,
+    mandatory: true,
     placeholder: "Número de baños",
     width: "half"
   },
@@ -81,6 +81,37 @@ const baseFormFields = [
     type: "select",
     default_option: "No",
     mandatory: false,
+    width: "half"
+  },
+  {
+    field: "trastero",
+    type: "select",
+    default_option: "No",
+    mandatory: false,
+    placeholder: "¿Trastero?",
+    width: "half"
+  },
+  {
+    field: "ac",
+    type: "select",
+    default_option: "No",
+    mandatory: false,
+    placeholder: "¿Aire acondicionado?",
+    width: "half"
+  },
+  {
+    field: "año",
+    type: "numeric",
+    mandatory: true,
+    placeholder: "Año de construcción",
+    width: "half"
+  },
+  {
+    field: "estado",
+    type: "select",
+    default_option: "Buen estado",
+    mandatory: false,
+    placeholder: "Estado de la vivienda",
     width: "half"
   }
 ];
