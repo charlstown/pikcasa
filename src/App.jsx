@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
+import { Analytics } from '@vercel/analytics/react'
 
 import AppTopBar from './components/layout/AppTopBar'
 import AppFooter from './components/layout/AppFooter'
@@ -13,6 +13,7 @@ function App() {
       <MainContent />
       <AppFooter />
       <Toaster position="top-center" toastOptions={{ duration: 3500 }} />
+      <Analytics />
     </div>
   )
 }
